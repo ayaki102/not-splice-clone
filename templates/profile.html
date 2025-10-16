@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}{{ profile_user.username }} - kitzz{% endblock %}
+
+{% block content %}
+
+{% import 'components/ui.html' as ui %}
+
+<!-- Profile Header - Minimal & Clean -->
+<section class="bg-[#121212] border-b border-[#333333]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex items-center gap-6">
+            <!-- Avatar -->
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ profile_user.email }}" 
+                 alt="{{ profile_user.username }}" 
+                 class="w-20 h-20 rounded-full border-2 border-[#333333]" />
+            
+            <!-- User Info -->
+            <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                    <h1 class="text-2xl font-bold text-[#F5F5F5]">{{ profile_user.username }}</h1>
+                    {% if profile_user.verified %}
+                    <i data-lucide="badge-check" class="w-5 h-5 text-[#00FFBB]"></i>
+                    {% endif %}
+                </div>
+                <p class="text-sm text-[#AAAAAA]">{{ stats.total_products }} products available</p>
+            </div>
+            
+            <!-- Actions (Only if own profile) -->
+            {% if is_own_profile %}
+            <a href="/upload" class="inline-flex items-center gap-2 bg-[#00FFBB] text-[#0F0F0F] px-6 py-2.5 rounded-lg font-semibold hover:bg-[#00DDAA] transition-all duration-300">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                Upload
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Products Section -->
+<section class="py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Filter & Sort Bar -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+            <div class="flex items-center gap-3">
+                <button class="px-4 py-2 bg-[#00FFBB] text-[#0F0F0F] rounded-lg text-sm font-medium">
+                    All ({{ stats.total_products }})
+                </button>
+                <button class="px-4 py-2 bg-[#222222] text-[#AAAAAA] rounded-lg text-sm font-medium hover:bg-[#333333] hover:text-[#F5F5F5] transition-all duration-300">
+                    Loops
+                </button>
+                <button class="px-4 py-2 bg-[#222222] text-[#AAAAAA] rounded-lg text-sm font-medium hover:bg-[#333333] hover:text-[#F5F5F5] transition-all duration-300">
+                    One-Shots
+                </button>
+                <button class="px-4 py-2 bg-[#222222] text-[#AAAAAA] rounded-lg text-sm font-medium hover:bg-[#333333] hover:text-[#F5F5F5] transition-all duration-300">
+                    Kits
+                </button>
+            </div>
+            
+            {{ ui.select(
+                name="sort",
+                options=[
+                    {'value': 'recent', 'label': 'Newest'},
+                    {'value': 'price_low', 'label': 'Price: Low → High'},
+                    {'value': 'price_high', 'label': 'Price: High → Low'}
+                ],
+                selected="recent"
+            ) }}
+        </div>
+        
+        <!-- Products Grid -->
+        {% if products|length > 0 %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {% for product in products %}
+            <div class="bg-[#181818] border border-[#333333] rounded-xl overflow-hidden hover:border-[#00FFBB] transition-all duration-300 group">
+                <!-- Image/Waveform -->
+                <div class="relative aspect-square bg-[#222222] overflow-hidden">
+                    {% if product.type == 'loop' or product.type == 'one-shot' %}
+                    <!-- Waveform Visual for audio -->
+                    <div class="w-full h-full flex items-center justify-center gap-1 px-4">
+                        {% for i in range(40) %}
+                        <div class="flex-1 bg-[#00FFBB]/20 group-hover:bg-[#00FFBB]/40 transition-all duration-300 rounded-full" 
+                             style="height: {{ [20, 35, 55, 75, 60, 45, 70, 85, 50, 30, 40, 65, 80, 70, 55, 60, 45, 35, 50, 40, 55, 70, 80, 65, 50, 60, 75, 85, 60, 45, 55, 70, 80, 65, 50, 40, 55, 70, 60, 45][i] }}%"></div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <!-- Image for kits -->
+                    <img src="{{ product.image }}" alt="{{ product.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    {% endif %}
+                    
+                    <!-- Play Button -->
+                    <button class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40">
+                        <div class="w-14 h-14 bg-[#00FFBB] rounded-full flex items-center justify-center shadow-lg">
+                            <i data-lucide="play" class="w-6 h-6 text-[#0F0F0F] ml-1"></i>
+                        </div>
+                    </button>
+                    
+                    <!-- Type Badge -->
+                    <div class="absolute top-2 left-2 px-2 py-1 bg-[#0F0F0F]/80 backdrop-blur-sm rounded text-xs font-medium text-[#00FFBB] uppercase">
+                        {{ product.type }}
+                    </div>
+                </div>
+                
+                <!-- Info -->
+                <div class="p-3">
+                    <h3 class="text-[#F5F5F5] font-semibold text-sm mb-1 truncate group-hover:text-[#00FFBB] transition-colors duration-300">
+                      <a href="/profile/{{ profile_user.username }}/product/{{product.id}}">{{ product.title }}</a> 
+                    </h3>
+                    
+                    <!-- Meta Info -->
+                    <div class="flex items-center gap-2 mb-3 text-xs text-[#777777] font-mono">
+                        {% if product.bpm %}
+                        <span>{{ product.bpm }} BPM</span>
+                        {% endif %}
+                        {% if product.key %}
+                        <span>•</span>
+                        <span>{{ product.key }}</span>
+                        {% endif %}
+                        {% if product.count %}
+                        <span>•</span>
+                        <span>{{ product.count }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Price & Action -->
+                    <div class="flex items-center justify-between">
+                        <span class="text-lg font-bold text-[#00FFBB] font-mono">${{ product.price }}</span>
+                        <button class="bg-[#222222] text-[#F5F5F5] px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-[#00FFBB] hover:text-[#0F0F0F] transition-all duration-300 flex items-center gap-1.5">
+                            <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i>
+                            Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- Empty State -->
+        <div class="text-center py-20">
+            <div class="w-20 h-20 bg-[#222222] rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="music" class="w-10 h-10 text-[#555555]"></i>
+            </div>
+            <h3 class="text-xl font-bold text-[#F5F5F5] mb-2">Nothing here yet</h3>
+            <p class="text-[#AAAAAA] mb-6">{% if is_own_profile %}Upload your first sound to start making money{% else %}Check back later{% endif %}</p>
+            {% if is_own_profile %}
+            <a href="/upload" class="inline-flex items-center gap-2 bg-[#00FFBB] text-[#0F0F0F] px-6 py-2.5 rounded-lg font-semibold hover:bg-[#00DDAA] transition-all duration-300">
+                <i data-lucide="upload" class="w-4 h-4"></i>
+                Upload Now
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<script>
+    lucide.createIcons();
+</script>
+
+{% endblock %}

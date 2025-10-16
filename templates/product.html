@@ -1,0 +1,257 @@
+{% extends "base.html" %} {% block title %}{{ product.title }} - kitzz{%
+endblock %} {% block content %}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Back Button -->
+  <a
+    href="/profile/{{ product.creator.username }}"
+    class="inline-flex items-center gap-2 text-[#AAAAAA] hover:text-[#00FFBB] transition-colors duration-300 mb-6"
+  >
+    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+    <span>Back to {{ product.creator.username }}'s profile</span>
+  </a>
+
+  <div class="grid lg:grid-cols-2 gap-12">
+    <!-- Left Column - Media -->
+    <div>
+      <!-- Main Visual -->
+      <div
+        class="bg-[#181818] border border-[#333333] rounded-2xl overflow-hidden mb-6 aspect-square flex items-center justify-center"
+      >
+        {% if product.type == 'loop' or product.type == 'one-shot' %}
+        <!-- Waveform for audio -->
+        <div class="w-full h-full flex items-center justify-center gap-2 px-8">
+          {% for i in range(60) %}
+          <div
+            class="flex-1 bg-[#00FFBB]/30 rounded-full transition-all duration-300 hover:bg-[#00FFBB]"
+            style="height: {{ [25, 40, 60, 80, 70, 50, 75, 90, 55, 35, 45, 70, 85, 75, 60, 65, 50, 40, 55, 45, 60, 75, 85, 70, 55, 65, 80, 90, 65, 50, 60, 75, 85, 70, 55, 45, 60, 75, 65, 50, 55, 70, 80, 65, 50, 60, 75, 85, 70, 55, 60, 75, 80, 65, 55, 45, 60, 70, 60, 50][i] }}%"
+          ></div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <!-- Image for kits -->
+        <img
+          src="{{ product.image }}"
+          alt="{{ product.title }}"
+          class="w-full h-full object-cover"
+        />
+        {% endif %}
+      </div>
+
+      <!-- Audio Player -->
+      <div class="bg-[#181818] border border-[#333333] rounded-xl p-6">
+        <div class="flex items-center gap-4 mb-4">
+          <button
+            class="w-12 h-12 bg-[#00FFBB] rounded-full flex items-center justify-center hover:bg-[#00DDAA] hover:scale-105 transition-all duration-300 shadow-lg shadow-[#00FFBB]/30"
+          >
+            <i data-lucide="play" class="w-6 h-6 text-[#0F0F0F] ml-1"></i>
+          </button>
+          <div class="flex-1">
+            <div class="h-2 bg-[#222222] rounded-full overflow-hidden">
+              <div
+                class="h-full bg-[#00FFBB] rounded-full"
+                style="width: 0%"
+              ></div>
+            </div>
+          </div>
+          <span class="text-sm text-[#AAAAAA] font-mono">0:00 / 0:30</span>
+        </div>
+        <p class="text-xs text-[#777777] text-center">
+          Preview available • Full version after purchase
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Column - Info & Purchase -->
+    <div>
+      <!-- Type Badge -->
+      <div
+        class="inline-block px-3 py-1 bg-[#222222] border border-[#333333] rounded-full text-xs font-medium text-[#00FFBB] uppercase mb-4"
+      >
+        {{ product.type }}
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-4xl font-bold text-[#F5F5F5] mb-3">
+        {{ product.title }}
+      </h1>
+
+      <!-- Creator -->
+      <a
+        href="/profile/{{ product.creator.username }}"
+        class="inline-flex items-center gap-2 mb-6 hover:text-[#00FFBB] transition-colors duration-300"
+      >
+        <img
+          src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ product.creator.email }}"
+          alt="{{ product.creator.username }}"
+          class="w-8 h-8 rounded-full border border-[#333333]"
+        />
+        <span class="text-[#AAAAAA]"
+          >by
+          <strong class="text-[#F5F5F5]"
+            >{{ product.creator.username }}</strong
+          ></span
+        >
+        {% if product.creator.verified %}
+        <i data-lucide="badge-check" class="w-4 h-4 text-[#00FFBB]"></i>
+        {% endif %}
+      </a>
+
+      <!-- Technical Details -->
+      <div class="bg-[#181818] border border-[#333333] rounded-xl p-6 mb-6">
+        <h3 class="text-sm font-semibold text-[#AAAAAA] uppercase mb-4">
+          Details
+        </h3>
+        <div class="grid grid-cols-2 gap-4">
+          {% if product.bpm %}
+          <div>
+            <div class="text-xs text-[#777777] mb-1">BPM</div>
+            <div class="text-[#F5F5F5] font-mono font-semibold">
+              {{ product.bpm }}
+            </div>
+          </div>
+          {% endif %} {% if product.key %}
+          <div>
+            <div class="text-xs text-[#777777] mb-1">Key</div>
+            <div class="text-[#F5F5F5] font-mono font-semibold">
+              {{ product.key }}
+            </div>
+          </div>
+          {% endif %} {% if product.format %}
+          <div>
+            <div class="text-xs text-[#777777] mb-1">Format</div>
+            <div class="text-[#F5F5F5] font-mono font-semibold">
+              {{ product.format }}
+            </div>
+          </div>
+          {% endif %} {% if product.file_size %}
+          <div>
+            <div class="text-xs text-[#777777] mb-1">Size</div>
+            <div class="text-[#F5F5F5] font-mono font-semibold">
+              {{ product.file_size }}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Description -->
+      {% if product.description %}
+      <div class="mb-6">
+        <h3 class="text-sm font-semibold text-[#AAAAAA] uppercase mb-3">
+          Description
+        </h3>
+        <p class="text-[#F5F5F5] leading-relaxed">{{ product.description }}</p>
+      </div>
+      {% endif %}
+
+      <!-- Tags -->
+      {% if product.tags %}
+      <div class="flex flex-wrap gap-2 mb-8">
+        {% for tag in product.tags %}
+        <span class="px-3 py-1 bg-[#222222] text-[#AAAAAA] rounded-full text-xs"
+          >#{{ tag }}</span
+        >
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Price & Purchase -->
+      <div
+        class="bg-[#181818] border-2 border-[#00FFBB] rounded-xl p-6 sticky top-20"
+      >
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <div class="text-sm text-[#AAAAAA] mb-1">Price</div>
+            <div class="text-4xl font-bold text-[#00FFBB] font-mono">
+              ${{ product.price }}
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-sm text-[#AAAAAA] mb-1">License</div>
+            <div class="text-[#F5F5F5] font-semibold">
+              {{ product.license }}
+            </div>
+          </div>
+        </div>
+
+        <button
+          class="w-full bg-[#00FFBB] text-[#0F0F0F] py-4 rounded-lg font-bold text-lg hover:bg-[#00DDAA] hover:scale-105 transition-all duration-300 shadow-lg shadow-[#00FFBB]/30 mb-3"
+        >
+          Buy Now
+        </button>
+
+        <button
+          class="w-full bg-[#222222] text-[#F5F5F5] py-3 rounded-lg font-medium hover:bg-[#333333] border border-[#333333] hover:border-[#00FFBB] transition-all duration-300 flex items-center justify-center gap-2"
+        >
+          <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+          Add to Cart
+        </button>
+
+        <div class="mt-4 flex items-center gap-4 text-xs text-[#777777]">
+          <div class="flex items-center gap-1">
+            <i data-lucide="shield-check" class="w-3 h-3 text-[#00FFBB]"></i>
+            <span>Instant download</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <i data-lucide="credit-card" class="w-3 h-3 text-[#00FFBB]"></i>
+            <span>Secure checkout</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- More from Creator -->
+  <section class="mt-16 pt-12 border-t border-[#333333]">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-2xl font-bold text-[#F5F5F5]">
+        More from {{ product.creator.username }}
+      </h2>
+      <a
+        href="/profile/{{ product.creator.username }}"
+        class="text-[#00FFBB] hover:text-[#00DDAA] transition-colors duration-300 text-sm font-medium"
+      >
+        View all →
+      </a>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {% for related in related_products %}
+      <a
+        href="/profile/{{ product.creator.username }}/product/{{ related.id }}"
+        class="bg-[#181818] border border-[#333333] rounded-xl overflow-hidden hover:border-[#00FFBB] transition-all duration-300 group"
+      >
+        <div
+          class="aspect-square bg-[#222222] flex items-center justify-center"
+        >
+          <div
+            class="w-full h-full flex items-center justify-center gap-0.5 px-3"
+          >
+            {% for i in range(30) %}
+            <div
+              class="flex-1 bg-[#00FFBB]/20 group-hover:bg-[#00FFBB]/40 transition-all duration-300 rounded-full"
+              style="height: {{ [30, 50, 70, 60, 45, 65, 80, 55, 40, 60, 75, 65, 50, 70, 80, 60, 50, 65, 75, 55, 45, 60, 70, 65, 55, 70, 80, 65, 55, 45][i] }}%"
+            ></div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="p-3">
+          <h3 class="text-[#F5F5F5] font-semibold text-sm mb-2 truncate">
+            {{ related.title }}
+          </h3>
+          <span class="text-lg font-bold text-[#00FFBB] font-mono"
+            >${{ related.price }}</span
+          >
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+
+<script>
+  lucide.createIcons();
+</script>
+
+{% endblock %}

@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Products - kitzz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        font-family: "Inter", sans-serif;
+      }
+
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #0f0f0f;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #00ffbb, #ff00dd);
+        border-radius: 10px;
+      }
+
+      .gradient-text {
+        background: linear-gradient(135deg, #00ffbb 0%, #ff00dd 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .glass-effect {
+        background: rgba(24, 24, 24, 0.4);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .product-card {
+        transition: all 0.3s ease;
+      }
+
+      .product-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        border-color: rgba(0, 255, 187, 0.3);
+      }
+
+      .sidebar {
+        transition: transform 0.3s ease;
+      }
+
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-100%);
+        }
+
+        .sidebar.active {
+          transform: translateX(0);
+        }
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .badge-free {
+        background: rgba(170, 170, 170, 0.1);
+        color: #aaaaaa;
+      }
+
+      .badge-starter {
+        background: rgba(0, 217, 255, 0.1);
+        color: #00d9ff;
+      }
+
+      .badge-pro {
+        background: rgba(0, 255, 187, 0.1);
+        color: #00ffbb;
+      }
+
+      .badge-published {
+        background: rgba(0, 255, 187, 0.1);
+        color: #00ffbb;
+      }
+
+      .badge-draft {
+        background: rgba(170, 170, 170, 0.1);
+        color: #aaaaaa;
+      }
+
+      .filter-btn {
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        border: 1px solid #222222;
+        background: #0a0a0a;
+        color: #aaaaaa;
+        cursor: pointer;
+      }
+
+      .filter-btn:hover {
+        background: #181818;
+        color: #f5f5f5;
+      }
+
+      .filter-btn.active {
+        background: rgba(0, 255, 187, 0.1);
+        border-color: #00ffbb;
+        color: #00ffbb;
+      }
+
+      .search-input {
+        background: #0a0a0a;
+        border: 1px solid #222222;
+        border-radius: 8px;
+        padding: 10px 16px 10px 40px;
+        color: #f5f5f5;
+        width: 100%;
+        transition: all 0.2s ease;
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: #00ffbb;
+        background: #181818;
+      }
+
+      .search-input::placeholder {
+        color: #777777;
+      }
+
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 8px;
+        background: #0a0a0a;
+        border: 1px solid #222222;
+        border-radius: 12px;
+        padding: 8px;
+        min-width: 200px;
+        z-index: 50;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      }
+
+      .dropdown-menu.show {
+        display: block;
+      }
+
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        color: #f5f5f5;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-size: 0.875rem;
+      }
+
+      .dropdown-item:hover {
+        background: #181818;
+      }
+
+      .dropdown-item.danger {
+        color: #ff4444;
+      }
+
+      .dropdown-item.danger:hover {
+        background: rgba(255, 68, 68, 0.1);
+      }
+    </style>
+  </head>
+  <body class="bg-[#0F0F0F] text-[#F5F5F5] antialiased">
+    <!-- Sidebar -->
+    <aside
+      id="sidebar"
+      class="sidebar fixed left-0 top-0 bottom-0 w-64 bg-[#0A0A0A] border-r border-[#222222] z-50 flex flex-col"
+    >
+      <!-- Logo -->
+      <div class="p-6 border-b border-[#222222]">
+        <a href="/" class="flex items-center gap-2">
+          <div
+            class="w-8 h-8 bg-gradient-to-br from-[#00FFBB] to-[#FF00DD] rounded-lg flex items-center justify-center"
+          >
+            <span class="text-[#0F0F0F] font-bold text-sm">K</span>
+          </div>
+          <span class="text-xl font-bold"
+            >kit<span class="text-[#00FFBB]">zz</span></span
+          >
+        </a>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="flex-1 p-4 overflow-y-auto">
+        <div class="space-y-1">
+          <a
+            href="/dashboard"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#AAAAAA] hover:bg-[#181818] hover:text-[#F5F5F5] transition-all"
+          >
+            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+            <span>Dashboard</span>
+          </a>
+          <a
+            href="/dashboard/products"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#00FFBB]/10 text-[#00FFBB] font-medium"
+          >
+            <i data-lucide="package" class="w-5 h-5"></i>
+            <span>My Products</span>
+          </a>
+          <a
+            href="/dashboard/orders"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#AAAAAA] hover:bg-[#181818] hover:text-[#F5F5F5] transition-all"
+          >
+            <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+            <span>Orders</span>
+          </a>
+          <a
+            href="/dashboard/analytics"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#AAAAAA] hover:bg-[#181818] hover:text-[#F5F5F5] transition-all"
+          >
+            <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+            <span>Analytics</span>
+          </a>
+          <a
+            href="/dashboard/payouts"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#AAAAAA] hover:bg-[#181818] hover:text-[#F5F5F5] transition-all"
+          >
+            <i data-lucide="dollar-sign" class="w-5 h-5"></i>
+            <span>Payouts</span>
+          </a>
+          <a
+            href="/profile/{{ user.username }}"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#AAAAAA] hover:bg-[#181818] hover:text-[#F5F5F5] transition-all"
+          >
+            <i data-lucide="store" class="w-5 h-5"></i>
+            <span>Storefront</span>
+          </a>
+        </div>
+
+        <div class="mt-8 pt-4 border-t border-[#222222]">
+          <a
+            href="/dashboard/settings"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#AAAAAA] hover:bg-[#181818] hover:text-[#F5F5F5] transition-all"
+          >
+            <i data-lucide="settings" class="w-5 h-5"></i>
+            <span>Settings</span>
+          </a>
+          <a
+            href="/help"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#AAAAAA] hover:bg-[#181818] hover:text-[#F5F5F5] transition-all"
+          >
+            <i data-lucide="help-circle" class="w-5 h-5"></i>
+            <span>Help</span>
+          </a>
+        </div>
+      </nav>
+
+      <!-- User Profile -->
+      <div class="p-4 border-t border-[#222222]">
+        <div class="flex items-center gap-3 px-2 py-2">
+          <div
+            class="w-10 h-10 rounded-full bg-gradient-to-br from-[#00FFBB] to-[#FF00DD] flex items-center justify-center font-bold text-sm"
+          >
+            {{ user.username[:2].upper() }}
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="text-sm font-semibold truncate">
+              {{ user.username }}
+            </div>
+            <div class="badge badge-{{ user.plan.lower() }}">
+              {% if user.plan == 'Pro' %}
+              <i data-lucide="crown" class="w-3 h-3"></i>
+              {% endif %} {{ user.plan }} Plan
+            </div>
+          </div>
+          <a href="/logout" class="text-[#AAAAAA] hover:text-[#F5F5F5]">
+            <i data-lucide="log-out" class="w-5 h-5"></i>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="md:ml-64">
+      <!-- Top Bar -->
+      <header class="sticky top-0 z-40 glass-effect border-b border-[#222222]">
+        <div
+          class="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16"
+        >
+          <div class="flex items-center gap-4">
+            <button class="md:hidden text-[#F5F5F5]" onclick="toggleSidebar()">
+              <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+            <div>
+              <h1 class="text-xl font-bold">My Products</h1>
+              <p class="text-xs text-[#AAAAAA]">Manage your digital products</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <a
+              href="/dashboard/products/new"
+              class="hidden sm:flex items-center gap-2 px-4 py-2 bg-[#00FFBB] text-[#0F0F0F] rounded-lg font-semibold hover:bg-[#00DDAA] transition-all"
+            >
+              <i data-lucide="plus" class="w-4 h-4"></i>
+              <span>Upload Product</span>
+            </a>
+            <a
+              href="/dashboard/products/new"
+              class="sm:hidden p-2 bg-[#00FFBB] text-[#0F0F0F] rounded-lg"
+            >
+              <i data-lucide="plus" class="w-5 h-5"></i>
+            </a>
+            <button
+              class="relative p-2 text-[#AAAAAA] hover:text-[#F5F5F5] rounded-lg hover:bg-[#181818] transition-all"
+            >
+              <i data-lucide="bell" class="w-5 h-5"></i>
+              {% if stats.unread_notifications > 0 %}
+              <span
+                class="absolute top-1 right-1 w-2 h-2 bg-[#FF00DD] rounded-full"
+              ></span>
+              {% endif %}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Products Content -->
+      <main class="p-4 sm:p-6 lg:p-8">
+        <!-- Overview Stats -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div class="glass-effect rounded-xl p-4 border border-[#222222]">
+            <div class="text-2xl font-black font-mono mb-1">
+              {{ products|length }}
+            </div>
+            <div class="text-xs text-[#AAAAAA]">Total Products</div>
+          </div>
+          <div class="glass-effect rounded-xl p-4 border border-[#222222]">
+            <div class="text-2xl font-black font-mono mb-1 text-[#00FFBB]">
+              {{ products|selectattr('status', 'equalto',
+              'published')|list|length }}
+            </div>
+            <div class="text-xs text-[#AAAAAA]">Published</div>
+          </div>
+          <div class="glass-effect rounded-xl p-4 border border-[#222222]">
+            <div class="text-2xl font-black font-mono mb-1 text-[#FF00DD]">
+              ${{ "%.2f"|format(products|sum(attribute='revenue', start=0)) }}
+            </div>
+            <div class="text-xs text-[#AAAAAA]">Total Revenue</div>
+          </div>
+          <div class="glass-effect rounded-xl p-4 border border-[#222222]">
+            <div class="text-2xl font-black font-mono mb-1 text-[#00D9FF]">
+              {{ products|sum(attribute='downloads', start=0) }}
+            </div>
+            <div class="text-xs text-[#AAAAAA]">Total Downloads</div>
+          </div>
+        </div>
+
+        <!-- Filters & Search -->
+        <div class="glass-effect rounded-2xl p-6 border border-[#222222] mb-6">
+          <div class="flex flex-col lg:flex-row gap-4">
+            <!-- Search -->
+            <div class="flex-1 relative">
+              <i
+                data-lucide="search"
+                class="w-5 h-5 text-[#777777] absolute left-3 top-1/2 -translate-y-1/2"
+              ></i>
+              <input
+                type="text"
+                placeholder="Search products..."
+                class="search-input"
+                id="searchInput"
+                onkeyup="filterProducts()"
+              />
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap gap-2">
+              <button
+                class="filter-btn active"
+                data-filter="all"
+                onclick="setFilter(this, 'all')"
+              >
+                All
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="published"
+                onclick="setFilter(this, 'published')"
+              >
+                Published
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="draft"
+                onclick="setFilter(this, 'draft')"
+              >
+                Drafts
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="loop"
+                onclick="setFilter(this, 'loop')"
+              >
+                Loops
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="kit"
+                onclick="setFilter(this, 'kit')"
+              >
+                Kits
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="sample"
+                onclick="setFilter(this, 'sample')"
+              >
+                Samples
+              </button>
+            </div>
+
+            <!-- Sort -->
+            <select
+              class="filter-btn cursor-pointer"
+              id="sortSelect"
+              onchange="sortProducts()"
+            >
+              <option value="recent">Most Recent</option>
+              <option value="oldest">Oldest</option>
+              <option value="revenue-high">Revenue (High)</option>
+              <option value="revenue-low">Revenue (Low)</option>
+              <option value="downloads-high">Downloads (High)</option>
+              <option value="downloads-low">Downloads (Low)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div
+          id="productsGrid"
+          class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+        >
+          {% for product in products %}
+          <div
+            class="product-card bg-[#0A0A0A] rounded-xl border border-[#222222] overflow-hidden"
+            data-status="{{ product.status }}"
+            data-type="{{ product.type }}"
+            data-title="{{ product.title|lower }}"
+            data-revenue="{{ product.revenue }}"
+            data-downloads="{{ product.downloads }}"
+          >
+            <div
+              class="aspect-square bg-gradient-to-br from-[#00FFBB]/20 to-[#FF00DD]/20 flex items-center justify-center relative"
+            >
+              {% if product.image %}
+              <img
+                src="{{ product.image }}"
+                alt="{{ product.title }}"
+                class="w-full h-full object-cover"
+              />
+              {% else %}
+              <i
+                data-lucide="{% if product.type == 'loop' %}music{% elif product.type == 'kit' %}folder{% else %}disc-3{% endif %}"
+                class="w-16 h-16 text-[#00FFBB]"
+              ></i>
+              {% endif %}
+
+              <div class="absolute top-3 left-3">
+                <span class="badge badge-{{ product.status }}">
+                  {{ product.status|capitalize }}
+                </span>
+              </div>
+
+              <div class="absolute top-3 right-3">
+                <div class="relative">
+                  <button
+                    class="w-8 h-8 bg-[#0A0A0A]/80 backdrop-blur-sm rounded-lg flex items-center justify-center text-[#F5F5F5] hover:bg-[#181818] transition-all"
+                    onclick="toggleDropdown(event, '{{ product.id }}')"
+                  >
+                    <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                  </button>
+                  <div class="dropdown-menu" id="dropdown-{{ product.id }}">
+                    <a
+                      href="/dashboard/products/{{ product.id }}/edit"
+                      class="dropdown-item"
+                    >
+                      <i data-lucide="edit" class="w-4 h-4"></i>
+                      Edit
+                    </a>
+                    <a
+                      href="/dashboard/products/{{ product.id }}/analytics"
+                      class="dropdown-item"
+                    >
+                      <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+                      Analytics
+                    </a>
+                    <a
+                      href="/products/{{ product.slug }}"
+                      target="_blank"
+                      class="dropdown-item"
+                    >
+                      <i data-lucide="external-link" class="w-4 h-4"></i>
+                      View Live
+                    </a>
+                    <hr class="my-1 border-[#222222]" />
+                    <button
+                      onclick="deleteProduct('{{ product.id }}')"
+                      class="dropdown-item danger w-full"
+                    >
+                      <i data-lucide="trash-2" class="w-4 h-4"></i>
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4">
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <h3 class="font-semibold truncate flex-1">
+                  {{ product.title }}
+                </h3>
+                <span
+                  class="text-xs text-[#777777] uppercase tracking-wider flex-shrink-0"
+                >
+                  {{ product.type }}
+                </span>
+              </div>
+
+              <div class="flex items-center gap-4 mb-3 text-sm text-[#AAAAAA]">
+                <span class="flex items-center gap-1">
+                  <i data-lucide="download" class="w-4 h-4"></i>
+                  {{ product.downloads }}
+                </span>
+                <span class="flex items-center gap-1">
+                  <i data-lucide="eye" class="w-4 h-4"></i>
+                  {{ product.views }}
+                </span>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <span class="text-lg font-bold text-[#00FFBB]"
+                  >${{ product.price }}</span
+                >
+                <span class="text-sm text-[#AAAAAA]">
+                  ${{ "%.2f"|format(product.revenue) }} earned
+                </span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Empty State -->
+        <div
+          id="emptyState"
+          class="glass-effect rounded-2xl p-12 border border-[#222222] text-center"
+          style="display: none"
+        >
+          <div
+            class="w-20 h-20 bg-[#00FFBB]/10 rounded-full flex items-center justify-center mx-auto mb-6"
+          >
+            <i data-lucide="package" class="w-10 h-10 text-[#00FFBB]"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2">No products found</h3>
+          <p class="text-[#AAAAAA] mb-6">
+            Try adjusting your search or filters
+          </p>
+          <a
+            href="/dashboard/products/new"
+            class="inline-flex items-center gap-2 px-6 py-3 bg-[#00FFBB] text-[#0F0F0F] rounded-lg font-semibold hover:bg-[#00DDAA] transition-all"
+          >
+            <i data-lucide="plus" class="w-5 h-5"></i>
+            <span>Upload Your First Product</span>
+          </a>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      lucide.createIcons();
+
+      let currentFilter = "all";
+
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("active");
+      }
+
+      // Close sidebar when clicking outside on mobile
+      document.addEventListener("click", function (event) {
+        const sidebar = document.getElementById("sidebar");
+        const isClickInside =
+          sidebar.contains(event.target) ||
+          event.target.closest('[onclick="toggleSidebar()"]');
+
+        if (!isClickInside && window.innerWidth < 768) {
+          sidebar.classList.remove("active");
+        }
+      });
+
+      function setFilter(button, filter) {
+        document.querySelectorAll(".filter-btn[data-filter]").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        button.classList.add("active");
+        currentFilter = filter;
+        filterProducts();
+      }
+
+      function filterProducts() {
+        const searchTerm = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const cards = document.querySelectorAll(".product-card");
+        let visibleCount = 0;
+
+        cards.forEach((card) => {
+          const title = card.dataset.title;
+          const status = card.dataset.status;
+          const type = card.dataset.type;
+
+          const matchesSearch = title.includes(searchTerm);
+          const matchesFilter =
+            currentFilter === "all" ||
+            currentFilter === status ||
+            currentFilter === type;
+
+          if (matchesSearch && matchesFilter) {
+            card.style.display = "block";
+            visibleCount++;
+          } else {
+            card.style.display = "none";
+          }
+        });
+
+        document.getElementById("productsGrid").style.display =
+          visibleCount > 0 ? "grid" : "none";
+        document.getElementById("emptyState").style.display =
+          visibleCount > 0 ? "none" : "block";
+      }
+
+      function sortProducts() {
+        const sortValue = document.getElementById("sortSelect").value;
+        const grid = document.getElementById("productsGrid");
+        const cards = Array.from(document.querySelectorAll(".product-card"));
+
+        cards.sort((a, b) => {
+          switch (sortValue) {
+            case "recent":
+              return 0; // Keep original order
+            case "oldest":
+              return 0; // Reverse would need date data
+            case "revenue-high":
+              return (
+                parseFloat(b.dataset.revenue) - parseFloat(a.dataset.revenue)
+              );
+            case "revenue-low":
+              return (
+                parseFloat(a.dataset.revenue) - parseFloat(b.dataset.revenue)
+              );
+            case "downloads-high":
+              return (
+                parseInt(b.dataset.downloads) - parseInt(a.dataset.downloads)
+              );
+            case "downloads-low":
+              return (
+                parseInt(a.dataset.downloads) - parseInt(b.dataset.downloads)
+              );
+            default:
+              return 0;
+          }
+        });
+
+        cards.forEach((card) => grid.appendChild(card));
+      }
+
+      function toggleDropdown(event, id) {
+        event.stopPropagation();
+        const dropdown = document.getElementById(`dropdown-${id}`);
+
+        // Close all other dropdowns
+        document.querySelectorAll(".dropdown-menu").forEach((menu) => {
+          if (menu.id !== `dropdown-${id}`) {
+            menu.classList.remove("show");
+          }
+        });
+
+        dropdown.classList.toggle("show");
+      }
+
+      // Close dropdowns when clicking outside
+      document.addEventListener("click", function () {
+        document.querySelectorAll(".dropdown-menu").forEach((menu) => {
+          menu.classList.remove("show");
+        });
+      });
+
+      function deleteProduct(id) {
+        if (
+          confirm(
+            "Are you sure you want to delete this product? This action cannot be undone.",
+          )
+        ) {
+          // Handle deletion
+          console.log("Deleting product:", id);
+          // In real implementation, make API call here
+        }
+      }
+
+      // Reinitialize icons after any DOM updates
+      setInterval(() => lucide.createIcons(), 1000);
+    </script>
+  </body>
+</html>

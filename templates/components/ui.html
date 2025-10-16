@@ -1,0 +1,484 @@
+{# ========================================================== 
+   NAVIGATION COMPONENTS
+========================================================== #}
+
+{# Top Navigation Bar #}
+{% macro navbar(logo_text="kit<span class='text-[#00FFBB]'>zz</span>", user_name="", user_avatar="", links=[]) %}
+<nav class="bg-[#121212] border-b border-[#333333] sticky top-0 z-40 backdrop-blur-lg bg-[#121212]/95">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      {# Logo #}
+      <div class="flex items-center gap-8">
+        <a href="/" class="text-2xl font-bold text-[#F5F5F5] hover:text-[#00FFBB] transition-colors duration-300">
+          {{ logo_text|safe }}
+        </a>
+        
+        {# Desktop Links #}
+        <div class="hidden md:flex items-center gap-6">
+          {% for link in links %}
+          <a href="{{ link.href }}" class="text-[#AAAAAA] hover:text-[#00FFBB] transition-colors duration-300 text-sm font-medium">
+            {{ link.text }}
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      
+      {# User Section #}
+      <div class="flex items-center gap-4">
+        {% if user_name %}
+        <div class="hidden sm:flex items-center gap-3">
+          <img src="{{ user_avatar }}" alt="{{ user_name }}" class="w-8 h-8 rounded-full border border-[#333333]" />
+          <span class="text-sm text-[#F5F5F5]">{{ user_name }}</span>
+        </div>
+        {% else %}
+        <a href="/login" class="text-sm text-[#AAAAAA] hover:text-[#00FFBB] transition-colors duration-300">Login</a>
+        <a href="/signup" class="bg-[#00FFBB] text-[#0F0F0F] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#00DDAA] transition-all duration-300">
+          Sign Up
+        </a>
+        {% endif %}
+        
+        {# Mobile Menu Button #}
+        <button class="md:hidden text-[#F5F5F5]" onclick="toggleMobileMenu()">
+          <i class="lucide lucide-menu w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+{% endmacro %}
+
+{# Sidebar Navigation #}
+{% macro sidebar(items=[]) %}
+<aside class="w-64 bg-[#121212] border-r border-[#333333] h-screen sticky top-16 hidden lg:block overflow-y-auto">
+  <div class="p-4">
+    {% for item in items %}
+    <a href="{{ item.href }}" class="flex items-center gap-3 px-4 py-3 text-[#AAAAAA] hover:text-[#00FFBB] hover:bg-[#181818] rounded-lg transition-all duration-300 mb-2 group">
+      <i class="lucide lucide-{{ item.icon }} w-5 h-5"></i>
+      <span class="text-sm font-medium">{{ item.text }}</span>
+      {% if item.badge %}
+      <span class="ml-auto bg-[#00FFBB]/20 text-[#00FFBB] text-xs px-2 py-0.5 rounded-full">{{ item.badge }}</span>
+      {% endif %}
+    </a>
+    {% endfor %}
+  </div>
+</aside>
+{% endmacro %}
+
+{# Breadcrumbs #}
+{% macro breadcrumbs(items=[]) %}
+<nav class="flex items-center gap-2 text-sm mb-6">
+  {% for item in items %}
+  <a href="{{ item.href }}" class="text-[#AAAAAA] hover:text-[#00FFBB] transition-colors duration-300">
+    {{ item.text }}
+  </a>
+  {% if not loop.last %}
+  <i class="lucide lucide-chevron-right w-4 h-4 text-[#555555]"></i>
+  {% endif %}
+  {% endfor %}
+</nav>
+{% endmacro %}
+
+{# ========================================================== 
+   PRODUCT/SAMPLE CARDS
+========================================================== #}
+
+{# Sample Pack Card #}
+{% macro sample_pack_card(title, producer, price, image, bpm="", key="", samples_count="", tags=[], id="") %}
+<div class="bg-[#181818] border border-[#333333] rounded-xl shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 overflow-hidden group">
+  {# Image #}
+  <div class="relative overflow-hidden aspect-square">
+    <img src="{{ image }}" alt="{{ title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+    
+    {# Play Button Overlay #}
+    <button class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      <div class="w-16 h-16 bg-[#00FFBB] rounded-full flex items-center justify-center shadow-lg shadow-[#00FFBB]/40">
+        <i class="lucide lucide-play w-8 h-8 text-[#0F0F0F] ml-1"></i>
+      </div>
+    </button>
+    
+    {# Quick Actions #}
+    <div class="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      <button class="w-8 h-8 bg-[#222222]/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-[#00FFBB] hover:text-[#0F0F0F] transition-all duration-300">
+        <i class="lucide lucide-heart w-4 h-4"></i>
+      </button>
+      <button class="w-8 h-8 bg-[#222222]/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-[#00FFBB] hover:text-[#0F0F0F] transition-all duration-300">
+        <i class="lucide lucide-share-2 w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+  
+  {# Content #}
+  <div class="p-4">
+    <h3 class="text-[#F5F5F5] font-semibold mb-1 truncate group-hover:text-[#00FFBB] transition-colors duration-300">
+      {{ title }}
+    </h3>
+    <p class="text-sm text-[#AAAAAA] mb-3">by {{ producer }}</p>
+    
+    {# Technical Details #}
+    <div class="flex items-center gap-3 mb-3 font-mono text-xs text-[#AAAAAA]">
+      {% if bpm %}
+      <span class="flex items-center gap-1">
+        <i class="lucide lucide-activity w-3 h-3"></i>
+        {{ bpm }} BPM
+      </span>
+      {% endif %}
+      {% if key %}
+      <span class="flex items-center gap-1">
+        <i class="lucide lucide-music w-3 h-3"></i>
+        {{ key }}
+      </span>
+      {% endif %}
+      {% if samples_count %}
+      <span class="flex items-center gap-1">
+        <i class="lucide lucide-layers w-3 h-3"></i>
+        {{ samples_count }}
+      </span>
+      {% endif %}
+    </div>
+    
+    {# Tags #}
+    {% if tags %}
+    <div class="flex flex-wrap gap-2 mb-4">
+      {% for tag in tags[:3] %}
+      <span class="text-xs px-2 py-1 bg-[#222222] text-[#AAAAAA] rounded-full">{{ tag }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+    
+    {# Price & CTA #}
+    <div class="flex items-center justify-between">
+      <span class="text-xl font-bold text-[#00FFBB] font-mono">${{ price }}</span>
+      <button class="bg-[#222222] text-[#F5F5F5] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#00FFBB] hover:text-[#0F0F0F] transition-all duration-300 flex items-center gap-2">
+        <i class="lucide lucide-shopping-cart w-4 h-4"></i>
+        Add
+      </button>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+{# Loop/Sample Row (List View) #}
+{% macro sample_row(title, producer, duration, bpm, key, price, waveform_data="", id="") %}
+<div class="bg-[#181818] border border-[#333333] rounded-lg p-4 hover:border-[#00FFBB] transition-all duration-300 group">
+  <div class="flex items-center gap-4">
+    {# Play Button #}
+    <button class="w-12 h-12 bg-[#222222] rounded-lg flex items-center justify-center hover:bg-[#00FFBB] hover:text-[#0F0F0F] transition-all duration-300 flex-shrink-0">
+      <i class="lucide lucide-play w-5 h-5"></i>
+    </button>
+    
+    {# Waveform Visual #}
+    <div class="hidden md:block w-32 h-12 bg-[#222222] rounded overflow-hidden">
+      <div class="h-full flex items-center justify-center gap-0.5">
+        {% for i in range(20) %}
+        <div class="w-1 bg-[#00FFBB]/30 group-hover:bg-[#00FFBB] transition-colors duration-300" style="height: {{ [20, 40, 60, 80, 60, 40, 70, 90, 50, 30, 40, 60, 80, 70, 50, 60, 40, 30, 50, 40][i % 20] }}%"></div>
+        {% endfor %}
+      </div>
+    </div>
+    
+    {# Info #}
+    <div class="flex-1 min-w-0">
+      <h4 class="text-[#F5F5F5] font-medium truncate mb-1 group-hover:text-[#00FFBB] transition-colors duration-300">
+        {{ title }}
+      </h4>
+      <p class="text-sm text-[#AAAAAA]">{{ producer }}</p>
+    </div>
+    
+    {# Technical Details #}
+    <div class="hidden lg:flex items-center gap-6 font-mono text-sm text-[#AAAAAA]">
+      <span>{{ duration }}</span>
+      <span>{{ bpm }} BPM</span>
+      <span>{{ key }}</span>
+    </div>
+    
+    {# Price & Actions #}
+    <div class="flex items-center gap-3">
+      <span class="text-lg font-bold text-[#00FFBB] font-mono">${{ price }}</span>
+      <button class="w-10 h-10 bg-[#222222] rounded-lg flex items-center justify-center hover:bg-[#00FFBB] hover:text-[#0F0F0F] transition-all duration-300">
+        <i class="lucide lucide-shopping-cart w-4 h-4"></i>
+      </button>
+      <button class="w-10 h-10 bg-[#222222] rounded-lg flex items-center justify-center hover:bg-[#FF00DD] hover:text-[#0F0F0F] transition-all duration-300">
+        <i class="lucide lucide-heart w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+{# ========================================================== 
+   FORMS & INPUTS
+========================================================== #}
+
+{# Select/Dropdown #}
+{% macro select(name, label="", options=[], selected="", icon=None) %}
+<div class="mb-4">
+  {% if label %}
+  <label for="{{ name }}" class="block mb-1 text-sm text-[#AAAAAA]">{{ label }}</label>
+  {% endif %}
+  <div class="relative">
+    {% if icon %}
+    <span class="absolute left-3 top-2.5 text-[#AAAAAA] pointer-events-none">
+      <i class="lucide lucide-{{ icon }} w-4 h-4"></i>
+    </span>
+    {% endif %}
+    <select
+      id="{{ name }}"
+      name="{{ name }}"
+      class="w-full bg-[#222222] border border-[#333333] rounded-lg text-[#F5F5F5] px-3 py-2 focus:border-[#00FFBB] focus:outline-none transition-all duration-300 appearance-none {% if icon %}pl-9{% endif %} pr-9"
+    >
+      {% for option in options %}
+      <option value="{{ option.value }}" {% if option.value == selected %}selected{% endif %}>
+        {{ option.label }}
+      </option>
+      {% endfor %}
+    </select>
+    <i class="lucide lucide-chevron-down w-4 h-4 absolute right-3 top-3 text-[#AAAAAA] pointer-events-none"></i>
+  </div>
+</div>
+{% endmacro %}
+
+{# Checkbox #}
+{% macro checkbox(name, label, checked=False, id="") %}
+<label class="flex items-center gap-3 cursor-pointer group">
+  <input
+    type="checkbox"
+    id="{{ id or name }}"
+    name="{{ name }}"
+    {% if checked %}checked{% endif %}
+    class="w-5 h-5 bg-[#222222] border border-[#333333] rounded checked:bg-[#00FFBB] checked:border-[#00FFBB] focus:outline-none focus:ring-2 focus:ring-[#00FFBB]/50 transition-all duration-300"
+  />
+  <span class="text-sm text-[#F5F5F5] group-hover:text-[#00FFBB] transition-colors duration-300">{{ label }}</span>
+</label>
+{% endmacro %}
+
+{# Radio Button #}
+{% macro radio(name, value, label, checked=False, id="") %}
+<label class="flex items-center gap-3 cursor-pointer group">
+  <input
+    type="radio"
+    id="{{ id or (name ~ value) }}"
+    name="{{ name }}"
+    value="{{ value }}"
+    {% if checked %}checked{% endif %}
+    class="w-5 h-5 bg-[#222222] border border-[#333333] rounded-full checked:bg-[#00FFBB] checked:border-[#00FFBB] focus:outline-none focus:ring-2 focus:ring-[#00FFBB]/50 transition-all duration-300"
+  />
+  <span class="text-sm text-[#F5F5F5] group-hover:text-[#00FFBB] transition-colors duration-300">{{ label }}</span>
+</label>
+{% endmacro %}
+
+{# Toggle Switch #}
+{% macro toggle(name, label="", checked=False, id="") %}
+<label class="flex items-center justify-between cursor-pointer group">
+  {% if label %}
+  <span class="text-sm text-[#F5F5F5] group-hover:text-[#00FFBB] transition-colors duration-300">{{ label }}</span>
+  {% endif %}
+  <div class="relative">
+    <input
+      type="checkbox"
+      id="{{ id or name }}"
+      name="{{ name }}"
+      {% if checked %}checked{% endif %}
+      class="sr-only peer"
+    />
+    <div class="w-11 h-6 bg-[#333333] rounded-full peer peer-checked:bg-[#00FFBB] transition-all duration-300"></div>
+    <div class="absolute left-1 top-1 w-4 h-4 bg-[#F5F5F5] rounded-full peer-checked:translate-x-5 transition-transform duration-300"></div>
+  </div>
+</label>
+{% endmacro %}
+
+{# File Upload #}
+{% macro file_upload(name, label="", accept="", max_size="", hint="") %}
+<div class="mb-4">
+  {% if label %}
+  <label class="block mb-1 text-sm text-[#AAAAAA]">{{ label }}</label>
+  {% endif %}
+  <label for="{{ name }}" class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-[#333333] rounded-lg cursor-pointer hover:border-[#00FFBB] transition-all duration-300 bg-[#181818] group">
+    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+      <i class="lucide lucide-upload w-8 h-8 mb-2 text-[#AAAAAA] group-hover:text-[#00FFBB] transition-colors duration-300"></i>
+      <p class="mb-2 text-sm text-[#AAAAAA]">
+        <span class="font-semibold group-hover:text-[#00FFBB] transition-colors duration-300">Click to upload</span> or drag and drop
+      </p>
+      {% if hint %}
+      <p class="text-xs text-[#777777]">{{ hint }}</p>
+      {% endif %}
+    </div>
+    <input
+      id="{{ name }}"
+      name="{{ name }}"
+      type="file"
+      {% if accept %}accept="{{ accept }}"{% endif %}
+      class="hidden"
+    />
+  </label>
+</div>
+{% endmacro %}
+
+{# Range Slider #}
+{% macro range_slider(name, label="", min=0, max=100, value=50, step=1, show_value=True) %}
+<div class="mb-4">
+  {% if label %}
+  <div class="flex justify-between items-center mb-2">
+    <label for="{{ name }}" class="text-sm text-[#AAAAAA]">{{ label }}</label>
+    {% if show_value %}
+    <span id="{{ name }}_value" class="text-sm text-[#00FFBB] font-mono">{{ value }}</span>
+    {% endif %}
+  </div>
+  {% endif %}
+  <input
+    type="range"
+    id="{{ name }}"
+    name="{{ name }}"
+    min="{{ min }}"
+    max="{{ max }}"
+    value="{{ value }}"
+    step="{{ step }}"
+    class="w-full h-2 bg-[#222222] rounded-lg appearance-none cursor-pointer accent-[#00FFBB]"
+    {% if show_value %}
+    oninput="document.getElementById('{{ name }}_value').textContent = this.value"
+    {% endif %}
+  />
+</div>
+{% endmacro %}
+
+{# Search Bar #}
+{% macro search_bar(name="search", placeholder="Search samples, packs, producers...", size="md") %}
+{% if size == "lg" %}
+{% set size_class = "h-14 text-lg" %}
+{% else %}
+{% set size_class = "h-12 text-base" %}
+{% endif %}
+<div class="relative w-full">
+  <i class="lucide lucide-search w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-[#AAAAAA]"></i>
+  <input
+    type="text"
+    name="{{ name }}"
+    placeholder="{{ placeholder }}"
+    class="w-full {{ size_class }} bg-[#222222] border border-[#333333] rounded-lg text-[#F5F5F5] pl-12 pr-4 focus:border-[#00FFBB] focus:outline-none transition-all duration-300"
+  />
+</div>
+{% endmacro %}
+
+{# ========================================================== 
+   STATS & METRICS
+========================================================== #}
+
+{# Stat Card #}
+{% macro stat_card(title, value, change="", trend="up", icon="") %}
+<div class="bg-[#181818] border border-[#333333] rounded-xl p-6 hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+  <div class="flex items-start justify-between mb-4">
+    <div>
+      <p class="text-sm text-[#AAAAAA] mb-1">{{ title }}</p>
+      <p class="text-3xl font-bold text-[#F5F5F5]">{{ value }}</p>
+    </div>
+    {% if icon %}
+    <div class="w-12 h-12 bg-[#222222] rounded-lg flex items-center justify-center">
+      <i class="lucide lucide-{{ icon }} w-6 h-6 text-[#00FFBB]"></i>
+    </div>
+    {% endif %}
+  </div>
+  {% if change %}
+  <div class="flex items-center gap-2">
+    {% if trend == "up" %}
+    <i class="lucide lucide-trending-up w-4 h-4 text-[#00FFBB]"></i>
+    <span class="text-sm text-[#00FFBB]">+{{ change }}</span>
+    {% else %}
+    <i class="lucide lucide-trending-down w-4 h-4 text-[#FF00DD]"></i>
+    <span class="text-sm text-[#FF00DD]">{{ change }}</span>
+    {% endif %}
+    <span class="text-sm text-[#777777]">vs last month</span>
+  </div>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{# Progress Bar #}
+{% macro progress_bar(label="", percent=0, color="accent", show_label=True) %}
+<div class="mb-4">
+  {% if label and show_label %}
+  <div class="flex justify-between items-center mb-2">
+    <span class="text-sm text-[#AAAAAA]">{{ label }}</span>
+    <span class="text-sm text-[#00FFBB] font-mono">{{ percent }}%</span>
+  </div>
+  {% endif %}
+  <div class="w-full h-2 bg-[#222222] rounded-full overflow-hidden">
+    {% if color == "magenta" %}
+    <div class="h-full bg-[#FF00DD] rounded-full transition-all duration-500" style="width: {{ percent }}%"></div>
+    {% else %}
+    <div class="h-full bg-[#00FFBB] rounded-full transition-all duration-500" style="width: {{ percent }}%"></div>
+    {% endif %}
+  </div>
+</div>
+{% endmacro %}
+
+{# ========================================================== 
+   LISTS & COLLECTIONS
+========================================================== #}
+
+{# Producer Card #}
+{% macro producer_card(name, avatar, followers, packs_count, verified=False, bio="") %}
+<div class="bg-[#181818] border border-[#333333] rounded-xl p-6 hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+  <div class="flex items-start gap-4">
+    <img src="{{ avatar }}" alt="{{ name }}" class="w-16 h-16 rounded-full border-2 border-[#333333]" />
+    <div class="flex-1">
+      <div class="flex items-center gap-2 mb-1">
+        <h3 class="text-lg font-semibold text-[#F5F5F5]">{{ name }}</h3>
+        {% if verified %}
+        <i class="lucide lucide-badge-check w-5 h-5 text-[#00FFBB]"></i>
+        {% endif %}
+      </div>
+      {% if bio %}
+      <p class="text-sm text-[#AAAAAA] mb-3 line-clamp-2">{{ bio }}</p>
+      {% endif %}
+      <div class="flex items-center gap-4 text-sm text-[#777777]">
+        <span>{{ followers }} followers</span>
+        <span>{{ packs_count }} packs</span>
+      </div>
+    </div>
+  </div>
+  <button class="w-full mt-4 bg-[#222222] text-[#F5F5F5] py-2 rounded-lg font-medium hover:bg-[#00FFBB] hover:text-[#0F0F0F] transition-all duration-300">
+    Follow
+  </button>
+</div>
+{% endmacro %}
+
+{# Tag Filter Pills #}
+{% macro tag_filter(tags=[], active_tag="") %}
+<div class="flex flex-wrap gap-2 mb-6">
+  {% for tag in tags %}
+  <button class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 {% if tag == active_tag %}bg-[#00FFBB] text-[#0F0F0F]{% else %}bg-[#222222] text-[#AAAAAA] hover:bg-[#333333] hover:text-[#F5F5F5]{% endif %}">
+    {{ tag }}
+  </button>
+  {% endfor %}
+</div>
+{% endmacro %}
+
+{# Pricing Tier Card #}
+{% macro pricing_card(name, price, features=[], highlighted=False, cta_text="Get Started", endpoint="/update") %}
+<div class="bg-[#181818] border {% if highlighted %}border-[#00FFBB] shadow-lg shadow-[#00FFBB]/20{% else %}border-[#333333]{% endif %} rounded-xl p-8 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative">
+  {% if highlighted %}
+  <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#00FFBB] text-[#0F0F0F] px-4 py-1 rounded-full text-sm font-semibold">
+    Popular
+  </div>
+  {% endif %}
+  
+  <h3 class="text-2xl font-bold text-[#F5F5F5] mb-2">{{ name }}</h3>
+  <div class="mb-6">
+    <span class="text-5xl font-bold text-[#00FFBB] font-mono">${{ price }}</span>
+    <span class="text-[#AAAAAA]">/month</span>
+  </div>
+  
+  <ul class="space-y-4 mb-8">
+    {% for feature in features %}
+    <li class="flex items-start gap-3">
+      <i class="lucide lucide-check w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
+      <span class="text-[#F5F5F5]">{{ feature }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+  
+  <button class="w-full {% if highlighted %}bg-[#00FFBB] text-[#0F0F0F] hover:bg-[#00DDAA]{% else %}bg-[#222222] text-[#F5F5F5] hover:bg-[#333333]{% endif %} py-3 rounded-lg font-semibold transition-all duration-300">
+    <a href="{{ endpoint }}">{{ cta_text }}</a> 
+  </button>
+</div>
+{% endmacro %}
+
