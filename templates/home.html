@@ -1,927 +1,1372 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kitzz - Keep 100% of Your Sales</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
-        * {
-            font-family: 'Inter', sans-serif;
+      * {
+        font-family: "Inter", sans-serif;
+      }
+
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
         }
-        
-        .font-mono {
-            font-family: 'JetBrains Mono', monospace;
+        33% {
+          transform: translateY(-30px) rotate(2deg);
         }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            33% { transform: translateY(-30px) rotate(2deg); }
-            66% { transform: translateY(-15px) rotate(-2deg); }
+        66% {
+          transform: translateY(-15px) rotate(-2deg);
         }
-        
-        @keyframes float-delayed {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            33% { transform: translateY(-20px) rotate(-2deg); }
-            66% { transform: translateY(-25px) rotate(2deg); }
+      }
+
+      @keyframes float-delayed {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
         }
-        
-        @keyframes glow-pulse {
-            0%, 100% { 
-                box-shadow: 0 0 20px rgba(0, 255, 187, 0.2);
-            }
-            50% { 
-                box-shadow: 0 0 30px rgba(0, 255, 187, 0.3);
-            }
+        33% {
+          transform: translateY(-20px) rotate(-2deg);
         }
-        
-        @keyframes slide-up {
-            from { 
-                transform: translateY(30px);
-                opacity: 0;
-            }
-            to { 
-                transform: translateY(0);
-                opacity: 1;
-            }
+        66% {
+          transform: translateY(-25px) rotate(2deg);
         }
-        
-        @keyframes scale-in {
-            from { 
-                transform: scale(0.9);
-                opacity: 0;
-            }
-            to { 
-                transform: scale(1);
-                opacity: 1;
-            }
+      }
+
+      @keyframes glow-pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 20px rgba(0, 255, 187, 0.2);
         }
-        
-        @keyframes shimmer {
-            0% { background-position: -1000px 0; }
-            100% { background-position: 1000px 0; }
+        50% {
+          box-shadow: 0 0 30px rgba(0, 255, 187, 0.3);
         }
-        
-        @keyframes particle-float {
-            0% { transform: translateY(0) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+      }
+
+      @keyframes slide-up {
+        from {
+          transform: translateY(30px);
+          opacity: 0;
         }
-        
-        @keyframes count-up {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        to {
+          transform: translateY(0);
+          opacity: 1;
         }
-        
-        .animate-float {
-            animation: float 8s ease-in-out infinite;
+      }
+
+      @keyframes scale-in {
+        from {
+          transform: scale(0.9);
+          opacity: 0;
         }
-        
-        .animate-float-delayed {
-            animation: float-delayed 8s ease-in-out infinite;
-            animation-delay: -4s;
+        to {
+          transform: scale(1);
+          opacity: 1;
         }
-        
-        .animate-glow {
-            animation: glow-pulse 4s ease-in-out infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: -1000px 0;
         }
-        
-        .animate-slide-up {
-            animation: slide-up 0.8s ease-out forwards;
+        100% {
+          background-position: 1000px 0;
         }
-        
-        .animate-scale-in {
-            animation: scale-in 0.6s ease-out forwards;
+      }
+
+      @keyframes particle-float {
+        0% {
+          transform: translateY(0) translateX(0);
+          opacity: 0;
         }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #00FFBB 0%, #FF00DD 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        10% {
+          opacity: 1;
         }
-        
-        .gradient-text-alt {
-            background: linear-gradient(90deg, #00FFBB 0%, #FF00DD 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        90% {
+          opacity: 1;
         }
-        
-        .shimmer-text {
-            background: linear-gradient(90deg, #F5F5F5 0%, #00FFBB 50%, #F5F5F5 100%);
-            background-size: 200% 100%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: shimmer 4s ease-in-out infinite;
+        100% {
+          transform: translateY(-100vh) translateX(50px);
+          opacity: 0;
         }
-        
-        .hero-gradient {
-            background: 
-                radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 255, 187, 0.08), transparent),
-                radial-gradient(ellipse 60% 40% at 80% 50%, rgba(255, 0, 221, 0.05), transparent);
+      }
+
+      @keyframes count-up {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
         }
-        
-        .glass-effect {
-            background: rgba(24, 24, 24, 0.4);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-        
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #00FFBB;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: particle-float 8s linear infinite;
+      }
+
+      .animate-float {
+        animation: float 8s ease-in-out infinite;
+      }
+
+      .animate-float-delayed {
+        animation: float-delayed 8s ease-in-out infinite;
+        animation-delay: -4s;
+      }
+
+      .animate-glow {
+        animation: glow-pulse 4s ease-in-out infinite;
+      }
+
+      .animate-slide-up {
+        animation: slide-up 0.8s ease-out forwards;
+      }
+
+      .animate-scale-in {
+        animation: scale-in 0.6s ease-out forwards;
+      }
+
+      .gradient-text {
+        background: linear-gradient(135deg, #00ffbb 0%, #ff00dd 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .gradient-text-alt {
+        background: linear-gradient(90deg, #00ffbb 0%, #ff00dd 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .shimmer-text {
+        background: linear-gradient(
+          90deg,
+          #f5f5f5 0%,
+          #00ffbb 50%,
+          #f5f5f5 100%
+        );
+        background-size: 200% 100%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: shimmer 4s ease-in-out infinite;
+      }
+
+      .hero-gradient {
+        background:
+          radial-gradient(
+            ellipse 80% 50% at 50% 0%,
+            rgba(0, 255, 187, 0.08),
+            transparent
+          ),
+          radial-gradient(
+            ellipse 60% 40% at 80% 50%,
+            rgba(255, 0, 221, 0.05),
+            transparent
+          );
+      }
+
+      .glass-effect {
+        background: rgba(24, 24, 24, 0.4);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: #00ffbb;
+        border-radius: 50%;
+        pointer-events: none;
+        animation: particle-float 8s linear infinite;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #0f0f0f;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #00ffbb, #ff00dd);
+        border-radius: 10px;
+      }
+
+      .card-hover {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .card-hover:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .pricing-card {
+        position: relative;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .pricing-card::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        border-radius: 1.5rem;
+        background: linear-gradient(135deg, #00ffbb, #ff00dd);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: -1;
+      }
+
+      .pricing-card:hover::before {
+        opacity: 0.3;
+      }
+
+      .pricing-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+      }
+
+      .btn-primary {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .btn-primary:hover::before {
+        left: 100%;
+      }
+
+      .feature-icon {
+        transition: all 0.3s ease;
+      }
+
+      .feature-card:hover .feature-icon {
+        transform: scale(1.1) rotate(5deg);
+      }
+
+      @media (max-width: 768px) {
+        .mobile-menu {
+          transform: translateX(100%);
+          transition: transform 0.3s ease-in-out;
         }
-        
-        html {
-            scroll-behavior: smooth;
+
+        .mobile-menu.active {
+          transform: translateX(0);
         }
-        
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #0F0F0F;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #00FFBB, #FF00DD);
-            border-radius: 10px;
-        }
-        
-        .card-hover {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-        
-        .pricing-card {
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .pricing-card::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 1.5rem;
-            background: linear-gradient(135deg, #00FFBB, #FF00DD);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: -1;
-        }
-        
-        .pricing-card:hover::before {
-            opacity: 0.3;
-        }
-        
-        .pricing-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-        }
-        
-        .btn-primary {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
-        
-        .btn-primary:hover::before {
-            left: 100%;
-        }
-        
-        .feature-icon {
-            transition: all 0.3s ease;
-        }
-        
-        .feature-card:hover .feature-icon {
-            transform: scale(1.1) rotate(5deg);
-        }
-        
-        @media (max-width: 768px) {
-            .mobile-menu {
-                transform: translateX(100%);
-                transition: transform 0.3s ease-in-out;
-            }
-            
-            .mobile-menu.active {
-                transform: translateX(0);
-            }
-        }
+      }
     </style>
-</head>
-<body class="bg-[#0F0F0F] text-[#F5F5F5] antialiased overflow-x-hidden">
-    
+  </head>
+  <body class="bg-[#0F0F0F] text-[#F5F5F5] antialiased overflow-x-hidden">
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 right-0 z-50 glass-effect">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-gradient-to-br from-[#00FFBB] to-[#FF00DD] rounded-lg flex items-center justify-center">
-                        <span class="text-[#0F0F0F] font-bold text-sm">K</span>
-                    </div>
-                    <span class="text-xl font-bold">kit<span class="text-[#00FFBB]">zz</span></span>
-                </div>
-                
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="#features" class="text-[#AAAAAA] hover:text-[#00FFBB] transition-colors">Features</a>
-                    <a href="#pricing" class="text-[#AAAAAA] hover:text-[#00FFBB] transition-colors">Pricing</a>
-                    <a href="#how-it-works" class="text-[#AAAAAA] hover:text-[#00FFBB] transition-colors">How It Works</a>
-                    <a href="/signup" class="text-[#AAAAAA] hover:text-[#00FFBB] transition-colors">Login</a>
-                    <a href="/signup" class="px-5 py-2 bg-[#00FFBB] text-[#0F0F0F] rounded-lg font-semibold hover:bg-[#00DDAA] transition-all hover:scale-105">
-                        Start Free
-                    </a>
-                </div>
-                
-                <button class="md:hidden text-[#F5F5F5]" onclick="toggleMobileMenu()">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center gap-2">
+            <div
+              class="w-8 h-8 bg-gradient-to-br from-[#00FFBB] to-[#FF00DD] rounded-lg flex items-center justify-center"
+            >
+              <span class="text-[#0F0F0F] font-bold text-sm">K</span>
             </div>
-        </div>
-    </nav>
-    
-    <!-- Mobile Menu -->
-    <div id="mobileMenu" class="mobile-menu fixed top-16 right-0 bottom-0 w-full bg-[#0F0F0F] z-40 md:hidden">
-        <div class="flex flex-col gap-6 p-8">
-            <a href="#features" class="text-lg text-[#AAAAAA] hover:text-[#00FFBB]" onclick="toggleMobileMenu()">Features</a>
-            <a href="#pricing" class="text-lg text-[#AAAAAA] hover:text-[#00FFBB]" onclick="toggleMobileMenu()">Pricing</a>
-            <a href="#how-it-works" class="text-lg text-[#AAAAAA] hover:text-[#00FFBB]" onclick="toggleMobileMenu()">How It Works</a>
-            <a href="/login" class="text-lg text-[#AAAAAA] hover:text-[#00FFBB]" onclick="toggleMobileMenu()">Login</a>
-            <a href="/signup" class="px-6 py-3 bg-[#00FFBB] text-[#0F0F0F] rounded-lg font-semibold text-center">
-                Start Free
+            <span class="text-xl font-bold"
+              >kit<span class="text-[#00FFBB]">zz</span></span
+            >
+          </div>
+
+          <div class="hidden md:flex items-center gap-8">
+            <a
+              href="#features"
+              class="text-[#AAAAAA] hover:text-[#00FFBB] transition-colors"
+              >Features</a
+            >
+            <a
+              href="#pricing"
+              class="text-[#AAAAAA] hover:text-[#00FFBB] transition-colors"
+              >Pricing</a
+            >
+            <a
+              href="#how-it-works"
+              class="text-[#AAAAAA] hover:text-[#00FFBB] transition-colors"
+              >How It Works</a
+            >
+            <a
+              href="/signup"
+              class="text-[#AAAAAA] hover:text-[#00FFBB] transition-colors"
+              >Login</a
+            >
+            <a
+              href="/signup"
+              class="px-5 py-2 bg-[#00FFBB] text-[#0F0F0F] rounded-lg font-semibold hover:bg-[#00DDAA] transition-all hover:scale-105"
+            >
+              Start Free
             </a>
+          </div>
+
+          <button class="md:hidden text-[#F5F5F5]" onclick="toggleMobileMenu()">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
         </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div
+      id="mobileMenu"
+      class="mobile-menu fixed top-16 right-0 bottom-0 w-full bg-[#0F0F0F] z-40 md:hidden"
+    >
+      <div class="flex flex-col gap-6 p-8">
+        <a
+          href="#features"
+          class="text-lg text-[#AAAAAA] hover:text-[#00FFBB]"
+          onclick="toggleMobileMenu()"
+          >Features</a
+        >
+        <a
+          href="#pricing"
+          class="text-lg text-[#AAAAAA] hover:text-[#00FFBB]"
+          onclick="toggleMobileMenu()"
+          >Pricing</a
+        >
+        <a
+          href="#how-it-works"
+          class="text-lg text-[#AAAAAA] hover:text-[#00FFBB]"
+          onclick="toggleMobileMenu()"
+          >How It Works</a
+        >
+        <a
+          href="/login"
+          class="text-lg text-[#AAAAAA] hover:text-[#00FFBB]"
+          onclick="toggleMobileMenu()"
+          >Login</a
+        >
+        <a
+          href="/signup"
+          class="px-6 py-3 bg-[#00FFBB] text-[#0F0F0F] rounded-lg font-semibold text-center"
+        >
+          Start Free
+        </a>
+      </div>
     </div>
-    
+
     <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden hero-gradient pt-16">
-        <!-- Animated Background Orbs -->
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00FFBB]/10 rounded-full blur-3xl animate-float"></div>
-            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#FF00DD]/10 rounded-full blur-3xl animate-float-delayed"></div>
-            <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-[#00D9FF]/10 rounded-full blur-3xl animate-float" style="animation-delay: -2s;"></div>
+    <section
+      class="relative min-h-screen flex items-center justify-center overflow-hidden hero-gradient pt-16"
+    >
+      <!-- Animated Background Orbs -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          class="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00FFBB]/10 rounded-full blur-3xl animate-float"
+        ></div>
+        <div
+          class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#FF00DD]/10 rounded-full blur-3xl animate-float-delayed"
+        ></div>
+        <div
+          class="absolute top-1/2 left-1/2 w-64 h-64 bg-[#00D9FF]/10 rounded-full blur-3xl animate-float"
+          style="animation-delay: -2s"
+        ></div>
+      </div>
+
+      <div
+        class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center z-10"
+      >
+        <!-- Badge -->
+        <div class="animate-slide-up mb-8">
+          <span
+            class="inline-flex items-center gap-2 px-4 py-2 bg-[#00FFBB]/10 border border-[#00FFBB]/30 rounded-full text-sm text-[#00FFBB] font-medium backdrop-blur-sm"
+          >
+            <i data-lucide="zap" class="w-4 h-4"></i>
+            Zero Commission Platform
+          </span>
         </div>
-        
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center z-10">
-            <!-- Badge -->
-            <div class="animate-slide-up mb-8">
-                <span class="inline-flex items-center gap-2 px-4 py-2 bg-[#00FFBB]/10 border border-[#00FFBB]/30 rounded-full text-sm text-[#00FFBB] font-medium backdrop-blur-sm">
-                    <i data-lucide="zap" class="w-4 h-4"></i>
-                    Zero Commission Platform
-                </span>
-            </div>
-            
-            <!-- Main Headline -->
-            <h1 class="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black mb-6 leading-[1.1] animate-slide-up" style="animation-delay: 0.1s;">
-                Stop Getting <span class="text-[#00FFBB] ">Robbed</span>.<br/>
-                <span class="text-[#AAAAAA] font-light text-4xl sm:text-5xl lg:text-6xl">Keep every dollar you earn.</span>
-            </h1>
-            
-            <p class="text-xl sm:text-2xl text-[#AAAAAA] max-w-3xl mx-auto mb-12 animate-slide-up" style="animation-delay: 0.2s;">
-                The only beat marketplace that doesn't take a cut. 
-                <span class="text-[#00FFBB] font-semibold">100%</span> of your sales go to you. 
-                Not <span class="text-[#FF00DD]">85%</span>. Not <span class="text-[#FF00DD]">88%</span>. 
-                <span class="text-[#F5F5F5] font-bold">ONE HUNDRED PERCENT.</span>
-            </p>
-            
-            <!-- CTA Buttons -->
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20 animate-slide-up" style="animation-delay: 0.3s;">
-                <a href="/signup" class="btn-primary group inline-flex items-center justify-center gap-2 font-bold rounded-xl transition-all duration-300 text-lg px-10 py-5 bg-[#00FFBB] text-[#0F0F0F] shadow-lg shadow-[#00FFBB]/20 hover:shadow-[#00FFBB]/30 hover:scale-105">
-                    <i data-lucide="rocket" class="w-5 h-5 group-hover:rotate-12 transition-transform"></i>
-                    Start Free - 3 Products Forever
-                </a>
-                <a href="#how-it-works" class="inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-300 text-lg px-10 py-5 glass-effect hover:border-[#00FFBB]/50 group">
-                    <i data-lucide="play-circle" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                    Watch Demo
-                </a>
-            </div>
-            
-            <!-- Stats Grid -->
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto animate-scale-in" style="animation-delay: 0.4s;">
-                <div class="glass-effect rounded-2xl p-6 card-hover">
-                    <div class="text-5xl font-black text-[#00FFBB] font-mono mb-2">100%</div>
-                    <div class="text-sm text-[#AAAAAA] font-medium">Keep Every Sale</div>
-                </div>
-                <div class="glass-effect rounded-2xl p-6 card-hover">
-                    <div class="text-5xl font-black text-[#00FFBB] font-mono mb-2">0%</div>
-                    <div class="text-sm text-[#AAAAAA] font-medium">Commission Fee</div>
-                </div>
-                <div class="glass-effect rounded-2xl p-6 card-hover">
-                    <div class="text-5xl font-black text-[#00FFBB] font-mono mb-2">&lt;1s</div>
-                    <div class="text-sm text-[#AAAAAA] font-medium">Instant Payouts</div>
-                </div>
-                <div class="glass-effect rounded-2xl p-6 card-hover">
-                    <div class="text-5xl font-black text-[#00FFBB] font-mono mb-2">∞</div>
-                    <div class="text-sm text-[#AAAAAA] font-medium">Upload Limit (Pro)</div>
-                </div>
-            </div>
-            
-            <!-- Social Proof -->
-            <div class="mt-16 animate-slide-up" style="animation-delay: 0.5s;">
-                <p class="text-sm text-[#777777] mb-4">Trusted by producers worldwide</p>
-                <div class="flex items-center justify-center gap-2">
-                    <div class="flex -space-x-3">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#00FFBB] to-[#FF00DD] border-2 border-[#0F0F0F]"></div>
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#FF00DD] to-[#00D9FF] border-2 border-[#0F0F0F]"></div>
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#00D9FF] to-[#00FFBB] border-2 border-[#0F0F0F]"></div>
-                        <div class="w-10 h-10 rounded-full bg-[#222222] border-2 border-[#0F0F0F] flex items-center justify-center text-xs font-semibold">
-                            1K+
-                        </div>
-                    </div>
-                    <span class="text-sm text-[#AAAAAA] ml-2">Active sellers this month</span>
-                </div>
-            </div>
+
+        <!-- Main Headline -->
+        <h1
+          class="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black mb-6 leading-[1.1] animate-slide-up"
+          style="animation-delay: 0.1s"
+        >
+          Stop Getting <span class="text-[#00FFBB]">Robbed</span>.<br />
+          <span
+            class="text-[#AAAAAA] font-light text-4xl sm:text-5xl lg:text-6xl"
+            >Keep every dollar you earn.</span
+          >
+        </h1>
+
+        <p
+          class="text-xl sm:text-2xl text-[#AAAAAA] max-w-3xl mx-auto mb-12 animate-slide-up"
+          style="animation-delay: 0.2s"
+        >
+          The only beat marketplace that doesn't take a cut.
+          <span class="text-[#00FFBB] font-semibold">100%</span> of your sales
+          go to you. Not <span class="text-[#FF00DD]">85%</span>. Not
+          <span class="text-[#FF00DD]">88%</span>.
+          <span class="text-[#F5F5F5] font-bold">ONE HUNDRED PERCENT.</span>
+        </p>
+
+        <!-- CTA Buttons -->
+        <div
+          class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20 animate-slide-up"
+          style="animation-delay: 0.3s"
+        >
+          <a
+            href="/signup"
+            class="btn-primary group inline-flex items-center justify-center gap-2 font-bold rounded-xl transition-all duration-300 text-lg px-10 py-5 bg-[#00FFBB] text-[#0F0F0F] shadow-lg shadow-[#00FFBB]/20 hover:shadow-[#00FFBB]/30 hover:scale-105"
+          >
+            <i
+              data-lucide="rocket"
+              class="w-5 h-5 group-hover:rotate-12 transition-transform"
+            ></i>
+            Start Free - 3 Products Forever
+          </a>
+          <a
+            href="#how-it-works"
+            class="inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-300 text-lg px-10 py-5 glass-effect hover:border-[#00FFBB]/50 group"
+          >
+            <i
+              data-lucide="play-circle"
+              class="w-5 h-5 group-hover:scale-110 transition-transform"
+            ></i>
+            Watch Demo
+          </a>
         </div>
-        
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-            <div class="w-6 h-10 border-2 border-[#00FFBB]/30 rounded-full flex items-start justify-center p-2">
-                <div class="w-1 h-2 bg-[#00FFBB] rounded-full"></div>
+
+        <!-- Stats Grid -->
+        <div
+          class="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto animate-scale-in"
+          style="animation-delay: 0.4s"
+        >
+          <div class="glass-effect rounded-2xl p-6 card-hover">
+            <div class="text-5xl font-black text-[#00FFBB] font-mono mb-2">
+              100%
             </div>
+            <div class="text-sm text-[#AAAAAA] font-medium">
+              Keep Every Sale
+            </div>
+          </div>
+          <div class="glass-effect rounded-2xl p-6 card-hover">
+            <div class="text-5xl font-black text-[#00FFBB] font-mono mb-2">
+              0%
+            </div>
+            <div class="text-sm text-[#AAAAAA] font-medium">Commission Fee</div>
+          </div>
+          <div class="glass-effect rounded-2xl p-6 card-hover">
+            <div class="text-5xl font-black text-[#00FFBB] font-mono mb-2">
+              &lt;1s
+            </div>
+            <div class="text-sm text-[#AAAAAA] font-medium">
+              Instant Payouts
+            </div>
+          </div>
+          <div class="glass-effect rounded-2xl p-6 card-hover">
+            <div class="text-5xl font-black text-[#00FFBB] font-mono mb-2">
+              ∞
+            </div>
+            <div class="text-sm text-[#AAAAAA] font-medium">
+              Upload Limit (Pro)
+            </div>
+          </div>
         </div>
+
+        <!-- Social Proof -->
+        <div class="mt-16 animate-slide-up" style="animation-delay: 0.5s">
+          <p class="text-sm text-[#777777] mb-4">
+            Trusted by producers worldwide
+          </p>
+          <div class="flex items-center justify-center gap-2">
+            <div class="flex -space-x-3">
+              <div
+                class="w-10 h-10 rounded-full bg-gradient-to-br from-[#00FFBB] to-[#FF00DD] border-2 border-[#0F0F0F]"
+              ></div>
+              <div
+                class="w-10 h-10 rounded-full bg-gradient-to-br from-[#FF00DD] to-[#00D9FF] border-2 border-[#0F0F0F]"
+              ></div>
+              <div
+                class="w-10 h-10 rounded-full bg-gradient-to-br from-[#00D9FF] to-[#00FFBB] border-2 border-[#0F0F0F]"
+              ></div>
+              <div
+                class="w-10 h-10 rounded-full bg-[#222222] border-2 border-[#0F0F0F] flex items-center justify-center text-xs font-semibold"
+              >
+                1K+
+              </div>
+            </div>
+            <span class="text-sm text-[#AAAAAA] ml-2"
+              >Active sellers this month</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <div
+          class="w-6 h-10 border-2 border-[#00FFBB]/30 rounded-full flex items-start justify-center p-2"
+        >
+          <div class="w-1 h-2 bg-[#00FFBB] rounded-full"></div>
+        </div>
+      </div>
     </section>
-    
+
     <!-- How It Works Section -->
     <section id="how-it-works" class="py-32 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-20">
-                <span class="inline-block px-4 py-2 bg-[#FF00DD]/10 border border-[#FF00DD]/30 rounded-full text-sm text-[#FF00DD] font-medium mb-6">
-                    Simple AF
-                </span>
-                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
-                    Three Steps to <span class="text-[#00FFBB] ">Financial Freedom</span>
-                </h2>
-                <p class="text-xl text-[#AAAAAA] max-w-2xl mx-auto">
-                    No approval gatekeepers. No waiting periods. No bullshit.
-                </p>
-            </div>
-            
-            <div class="grid lg:grid-cols-3 gap-8 relative">
-                <!-- Connection Line (Desktop) -->
-                <div class="hidden lg:block absolute top-32 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-[#00FFBB]/30 via-[#FF00DD]/30 to-[#00FFBB]/30"></div>
-                
-                <!-- Step 1 -->
-                <div class="feature-card relative">
-                    <div class="glass-effect rounded-3xl p-8 card-hover">
-                        <div class="absolute -top-6 left-8 w-14 h-14 bg-gradient-to-br from-[#00FFBB] to-[#00DDAA] rounded-2xl flex items-center justify-center text-[#0F0F0F] font-black text-2xl shadow-xl shadow-[#00FFBB]/30">
-                            1
-                        </div>
-                        <div class="w-20 h-20 bg-gradient-to-br from-[#00FFBB]/20 to-[#00DDAA]/20 rounded-2xl flex items-center justify-center mb-6 mt-4 feature-icon">
-                            <i data-lucide="upload-cloud" class="w-10 h-10 text-[#00FFBB]"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-4 text-[#F5F5F5]">Upload Your Heat</h3>
-                        <p class="text-[#AAAAAA] leading-relaxed">
-                            Drag and drop your beats, sample packs, or loops. Takes 30 seconds. No approval process. Your music goes live instantly.
-                        </p>
-                        <div class="mt-6 flex items-center gap-2 text-sm text-[#00FFBB]">
-                            <i data-lucide="check-circle" class="w-4 h-4"></i>
-                            <span>Instant publishing</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Step 2 -->
-                <div class="feature-card relative lg:mt-8">
-                    <div class="glass-effect rounded-3xl p-8 card-hover">
-                        <div class="absolute -top-6 left-8 w-14 h-14 bg-gradient-to-br from-[#FF00DD] to-[#DD00BB] rounded-2xl flex items-center justify-center text-[#0F0F0F] font-black text-2xl shadow-xl shadow-[#FF00DD]/30">
-                            2
-                        </div>
-                        <div class="w-20 h-20 bg-gradient-to-br from-[#FF00DD]/20 to-[#DD00BB]/20 rounded-2xl flex items-center justify-center mb-6 mt-4 feature-icon">
-                            <i data-lucide="tag" class="w-10 h-10 text-[#FF00DD]"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-4 text-[#F5F5F5]">Name Your Price</h3>
-                        <p class="text-[#AAAAAA] leading-relaxed">
-                            $5? $500? Free? You're the boss. Set prices that reflect your skill level. Change them whenever you want.
-                        </p>
-                        <div class="mt-6 flex items-center gap-2 text-sm text-[#FF00DD]">
-                            <i data-lucide="check-circle" class="w-4 h-4"></i>
-                            <span>Full pricing control</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Step 3 -->
-                <div class="feature-card relative lg:mt-16">
-                    <div class="glass-effect rounded-3xl p-8 card-hover">
-                        <div class="absolute -top-6 left-8 w-14 h-14 bg-gradient-to-br from-[#00D9FF] to-[#0099FF] rounded-2xl flex items-center justify-center text-[#0F0F0F] font-black text-2xl shadow-xl shadow-[#00D9FF]/30">
-                            3
-                        </div>
-                        <div class="w-20 h-20 bg-gradient-to-br from-[#00D9FF]/20 to-[#0099FF]/20 rounded-2xl flex items-center justify-center mb-6 mt-4 feature-icon">
-                            <i data-lucide="banknote" class="w-10 h-10 text-[#00D9FF]"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-4 text-[#F5F5F5]">Stack Your Cash</h3>
-                        <p class="text-[#AAAAAA] leading-relaxed">
-                            Money hits your Stripe account instantly. No minimum payout. No waiting periods. No "we'll pay you next month" garbage.
-                        </p>
-                        <div class="mt-6 flex items-center gap-2 text-sm text-[#00D9FF]">
-                            <i data-lucide="check-circle" class="w-4 h-4"></i>
-                            <span>Instant withdrawals</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+          <span
+            class="inline-block px-4 py-2 bg-[#FF00DD]/10 border border-[#FF00DD]/30 rounded-full text-sm text-[#FF00DD] font-medium mb-6"
+          >
+            Simple AF
+          </span>
+          <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
+            Three Steps to <span class="text-[#00FFBB]">Financial Freedom</span>
+          </h2>
+          <p class="text-xl text-[#AAAAAA] max-w-2xl mx-auto">
+            No approval gatekeepers. No waiting periods. No bullshit.
+          </p>
         </div>
+
+        <div class="grid lg:grid-cols-3 gap-8 relative">
+          <!-- Connection Line (Desktop) -->
+          <div
+            class="hidden lg:block absolute top-32 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-[#00FFBB]/30 via-[#FF00DD]/30 to-[#00FFBB]/30"
+          ></div>
+
+          <!-- Step 1 -->
+          <div class="feature-card relative">
+            <div class="glass-effect rounded-3xl p-8 card-hover">
+              <div
+                class="absolute -top-6 left-8 w-14 h-14 bg-gradient-to-br from-[#00FFBB] to-[#00DDAA] rounded-2xl flex items-center justify-center text-[#0F0F0F] font-black text-2xl shadow-xl shadow-[#00FFBB]/30"
+              >
+                1
+              </div>
+              <div
+                class="w-20 h-20 bg-gradient-to-br from-[#00FFBB]/20 to-[#00DDAA]/20 rounded-2xl flex items-center justify-center mb-6 mt-4 feature-icon"
+              >
+                <i
+                  data-lucide="upload-cloud"
+                  class="w-10 h-10 text-[#00FFBB]"
+                ></i>
+              </div>
+              <h3 class="text-2xl font-bold mb-4 text-[#F5F5F5]">
+                Upload Your Heat
+              </h3>
+              <p class="text-[#AAAAAA] leading-relaxed">
+                Drag and drop your beats, sample packs, or loops. Takes 30
+                seconds. No approval process. Your music goes live instantly.
+              </p>
+              <div class="mt-6 flex items-center gap-2 text-sm text-[#00FFBB]">
+                <i data-lucide="check-circle" class="w-4 h-4"></i>
+                <span>Instant publishing</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="feature-card relative lg:mt-8">
+            <div class="glass-effect rounded-3xl p-8 card-hover">
+              <div
+                class="absolute -top-6 left-8 w-14 h-14 bg-gradient-to-br from-[#FF00DD] to-[#DD00BB] rounded-2xl flex items-center justify-center text-[#0F0F0F] font-black text-2xl shadow-xl shadow-[#FF00DD]/30"
+              >
+                2
+              </div>
+              <div
+                class="w-20 h-20 bg-gradient-to-br from-[#FF00DD]/20 to-[#DD00BB]/20 rounded-2xl flex items-center justify-center mb-6 mt-4 feature-icon"
+              >
+                <i data-lucide="tag" class="w-10 h-10 text-[#FF00DD]"></i>
+              </div>
+              <h3 class="text-2xl font-bold mb-4 text-[#F5F5F5]">
+                Name Your Price
+              </h3>
+              <p class="text-[#AAAAAA] leading-relaxed">
+                $5? $500? Free? You're the boss. Set prices that reflect your
+                skill level. Change them whenever you want.
+              </p>
+              <div class="mt-6 flex items-center gap-2 text-sm text-[#FF00DD]">
+                <i data-lucide="check-circle" class="w-4 h-4"></i>
+                <span>Full pricing control</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="feature-card relative lg:mt-16">
+            <div class="glass-effect rounded-3xl p-8 card-hover">
+              <div
+                class="absolute -top-6 left-8 w-14 h-14 bg-gradient-to-br from-[#00D9FF] to-[#0099FF] rounded-2xl flex items-center justify-center text-[#0F0F0F] font-black text-2xl shadow-xl shadow-[#00D9FF]/30"
+              >
+                3
+              </div>
+              <div
+                class="w-20 h-20 bg-gradient-to-br from-[#00D9FF]/20 to-[#0099FF]/20 rounded-2xl flex items-center justify-center mb-6 mt-4 feature-icon"
+              >
+                <i data-lucide="banknote" class="w-10 h-10 text-[#00D9FF]"></i>
+              </div>
+              <h3 class="text-2xl font-bold mb-4 text-[#F5F5F5]">
+                Stack Your Cash
+              </h3>
+              <p class="text-[#AAAAAA] leading-relaxed">
+                Money hits your Stripe account instantly. No minimum payout. No
+                waiting periods. No "we'll pay you next month" garbage.
+              </p>
+              <div class="mt-6 flex items-center gap-2 text-sm text-[#00D9FF]">
+                <i data-lucide="check-circle" class="w-4 h-4"></i>
+                <span>Instant withdrawals</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
-    
+
     <!-- The Math Section -->
     <section class="py-32 bg-[#0A0A0A] relative overflow-hidden">
-        <div class="absolute inset-0 opacity-20">
-            <div class="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-[#00FFBB] to-transparent"></div>
-            <div class="absolute top-0 left-1/2 w-px h-full bg-gradient-to-b from-transparent via-[#FF00DD] to-transparent"></div>
-            <div class="absolute top-0 left-3/4 w-px h-full bg-gradient-to-b from-transparent via-[#00D9FF] to-transparent"></div>
+      <div class="absolute inset-0 opacity-20">
+        <div
+          class="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-[#00FFBB] to-transparent"
+        ></div>
+        <div
+          class="absolute top-0 left-1/2 w-px h-full bg-gradient-to-b from-transparent via-[#FF00DD] to-transparent"
+        ></div>
+        <div
+          class="absolute top-0 left-3/4 w-px h-full bg-gradient-to-b from-transparent via-[#00D9FF] to-transparent"
+        ></div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div class="text-center mb-20">
+          <span
+            class="inline-block px-4 py-2 bg-[#00FFBB]/10 border border-[#00FFBB]/30 rounded-full text-sm text-[#00FFBB] font-medium mb-6"
+          >
+            Do The Math
+          </span>
+          <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
+            Keep More. <br class="hidden sm:block" />
+            <span class="text-[#00FFBB]">Earn More.</span>
+          </h2>
+          <p class="text-xl text-[#AAAAAA] max-w-2xl mx-auto">
+            Most platforms take 12-30% in fees. We take a flat monthly rate. You
+            do the math.
+          </p>
         </div>
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <div class="text-center mb-20">
-                <span class="inline-block px-4 py-2 bg-[#00FFBB]/10 border border-[#00FFBB]/30 rounded-full text-sm text-[#00FFBB] font-medium mb-6">
-                    Do The Math
-                </span>
-                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
-                    Keep More. <br class="hidden sm:block"/>
-                    <span class="text-[#00FFBB] ">Earn More.</span>
-                </h2>
-                <p class="text-xl text-[#AAAAAA] max-w-2xl mx-auto">
-                    Most platforms take 12-30% in fees. We take a flat monthly rate. You do the math.
-                </p>
+
+        <div class="glass-effect rounded-3xl p-8 sm:p-12 max-w-5xl mx-auto">
+          <div class="grid md:grid-cols-3 gap-12 items-center">
+            <div class="text-center">
+              <div
+                class="text-6xl sm:text-7xl font-black text-[#F5F5F5] mb-4 font-mono"
+              >
+                $1,000
+              </div>
+              <div class="text-lg text-[#AAAAAA] font-medium">
+                Your Monthly Sales
+              </div>
             </div>
-            
-            <div class="glass-effect rounded-3xl p-8 sm:p-12 max-w-5xl mx-auto">
-                <div class="grid md:grid-cols-3 gap-12 items-center">
-                    <div class="text-center">
-                        <div class="text-6xl sm:text-7xl font-black text-[#F5F5F5] mb-4 font-mono">$1,000</div>
-                        <div class="text-lg text-[#AAAAAA] font-medium">Your Monthly Sales</div>
-                    </div>
-                    
-                    <div class="flex flex-col gap-8">
-                        <!-- Other Platforms -->
-                        <div class="flex items-center gap-4">
-                            <div class="flex-1">
-                                <div class="text-sm text-[#777777] mb-1">Typical Platform (15% fee)</div>
-                                <div class="h-3 bg-[#222222] rounded-full overflow-hidden">
-                                    <div class="h-full bg-gradient-to-r from-[#FF00DD] to-[#DD0099] w-[85%] rounded-full"></div>
-                                </div>
-                            </div>
-                            <div class="text-2xl font-black text-[#FF00DD] font-mono whitespace-nowrap">$850</div>
-                        </div>
-                        
-                        <!-- Kitzz -->
-                        <div class="flex items-center gap-4">
-                            <div class="flex-1">
-                                <div class="text-sm text-[#00FFBB] mb-1 font-semibold">kitzz (flat $25/mo)</div>
-                                <div class="h-3 bg-[#222222] rounded-full overflow-hidden">
-                                    <div class="h-full bg-gradient-to-r from-[#00FFBB] to-[#00DDAA] w-full rounded-full"></div>
-                                </div>
-                            </div>
-                            <div class="text-2xl font-black text-[#00FFBB] font-mono whitespace-nowrap">$975</div>
-                        </div>
-                    </div>
-                    
-                    <div class="text-center">
-                        <div class="inline-flex items-center gap-3 bg-[#00FFBB]/10 border border-[#00FFBB]/30 rounded-2xl px-6 py-4">
-                            <i data-lucide="trending-up" class="w-8 h-8 text-[#00FFBB]"></i>
-                            <div class="text-left">
-                                <div class="text-3xl font-black text-[#00FFBB] font-mono">+$125</div>
-                                <div class="text-xs text-[#AAAAAA]">More in your pocket</div>
-                            </div>
-                        </div>
-                    </div>
+
+            <div class="flex flex-col gap-8">
+              <!-- Other Platforms -->
+              <div class="flex items-center gap-4">
+                <div class="flex-1">
+                  <div class="text-sm text-[#777777] mb-1">
+                    Typical Platform (15% fee)
+                  </div>
+                  <div class="h-3 bg-[#222222] rounded-full overflow-hidden">
+                    <div
+                      class="h-full bg-gradient-to-r from-[#FF00DD] to-[#DD0099] w-[85%] rounded-full"
+                    ></div>
+                  </div>
                 </div>
-                
-                <div class="mt-12 pt-8 border-t border-[#333333] text-center">
-                    <p class="text-[#AAAAAA] text-lg">
-                        The more you sell, the more you save. At <span class="text-[#00FFBB] font-bold">$1,000/month</span> in sales,
-                        <span class="mx-2">·</span> 
-                        you're already ahead <span class="text-[#00FFBB] font-bold">$125</span>
-                    </p>
-                    <p class="text-sm text-[#777777] mt-2">No commission scaling. No hidden fees. No surprises.</p>
+                <div
+                  class="text-2xl font-black text-[#FF00DD] font-mono whitespace-nowrap"
+                >
+                  $850
                 </div>
+              </div>
+
+              <!-- Kitzz -->
+              <div class="flex items-center gap-4">
+                <div class="flex-1">
+                  <div class="text-sm text-[#00FFBB] mb-1 font-semibold">
+                    kitzz (flat $25/mo)
+                  </div>
+                  <div class="h-3 bg-[#222222] rounded-full overflow-hidden">
+                    <div
+                      class="h-full bg-gradient-to-r from-[#00FFBB] to-[#00DDAA] w-full rounded-full"
+                    ></div>
+                  </div>
+                </div>
+                <div
+                  class="text-2xl font-black text-[#00FFBB] font-mono whitespace-nowrap"
+                >
+                  $975
+                </div>
+              </div>
             </div>
+
+            <div class="text-center">
+              <div
+                class="inline-flex items-center gap-3 bg-[#00FFBB]/10 border border-[#00FFBB]/30 rounded-2xl px-6 py-4"
+              >
+                <i data-lucide="trending-up" class="w-8 h-8 text-[#00FFBB]"></i>
+                <div class="text-left">
+                  <div class="text-3xl font-black text-[#00FFBB] font-mono">
+                    +$125
+                  </div>
+                  <div class="text-xs text-[#AAAAAA]">More in your pocket</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-12 pt-8 border-t border-[#333333] text-center">
+            <p class="text-[#AAAAAA] text-lg">
+              The more you sell, the more you save. At
+              <span class="text-[#00FFBB] font-bold">$1,000/month</span> in
+              sales,
+              <span class="mx-2">·</span>
+              you're already ahead
+              <span class="text-[#00FFBB] font-bold">$125</span>
+            </p>
+            <p class="text-sm text-[#777777] mt-2">
+              No commission scaling. No hidden fees. No surprises.
+            </p>
+          </div>
         </div>
+      </div>
     </section>
-    
+
     <!-- Pricing Section -->
     <section id="pricing" class="py-32 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-20">
-                <span class="inline-block px-4 py-2 bg-[#FF00DD]/10 border border-[#FF00DD]/30 rounded-full text-sm text-[#FF00DD] font-medium mb-6">
-                    Transparent Pricing
-                </span>
-                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
-                    One Simple Fee. <br class="sm:hidden"/><span class="text-[#00FFBB] ">Unlimited Profit.</span>
-                </h2>
-                <p class="text-xl text-[#AAAAAA] max-w-2xl mx-auto">
-                    No commission. No hidden fees. No surprises. Just a flat monthly subscription.
-                </p>
-            </div>
-            
-            <div class="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <!-- Free Plan -->
-                <div class="pricing-card glass-effect rounded-3xl p-8 relative">
-                    <div class="mb-8">
-                        <div class="flex items-baseline gap-2 mb-2">
-                            <span class="text-5xl font-black text-[#F5F5F5]">$0</span>
-                            <span class="text-[#AAAAAA]">/month</span>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-2">Free Forever</h3>
-                        <p class="text-[#AAAAAA] text-sm">Perfect for testing the waters</p>
-                    </div>
-                    
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span><strong>3 products</strong> upload limit</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span><strong>Keep 100%</strong> of all sales</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span>Instant payouts via Stripe</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span>Basic storefront page</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span>Email support</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#AAAAAA]">
-                            <i data-lucide="x" class="w-5 h-5 text-[#555555] flex-shrink-0 mt-0.5"></i>
-                            <span>Custom branding</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#AAAAAA]">
-                            <i data-lucide="x" class="w-5 h-5 text-[#555555] flex-shrink-0 mt-0.5"></i>
-                            <span>Analytics dashboard</span>
-                        </li>
-                    </ul>
-                    
-                    <a href="/signup?plan=free" class="block w-full py-4 px-6 bg-[#222222] text-[#F5F5F5] rounded-xl font-semibold text-center hover:bg-[#2A2A2A] transition-all border border-[#333333] hover:border-[#00FFBB]">
-                        Start Free
-                    </a>
-                </div>
-                
-                <!-- Starter Plan -->
-                <div class="pricing-card glass-effect rounded-3xl p-8 relative border-2 border-[#333333]">
-                    <div class="mb-8">
-                        <div class="flex items-baseline gap-2 mb-2">
-                            <span class="text-5xl font-black text-[#F5F5F5]">$9.99</span>
-                            <span class="text-[#AAAAAA]">/month</span>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-2">Starter</h3>
-                        <p class="text-[#AAAAAA] text-sm">For serious producers getting started</p>
-                    </div>
-                    
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span><strong>15 products</strong> per month</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span><strong>Keep 100%</strong> of all sales</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span>Instant payouts via Stripe</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span>Enhanced storefront page</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span>Basic analytics</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span>Priority email support</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#AAAAAA]">
-                            <i data-lucide="x" class="w-5 h-5 text-[#555555] flex-shrink-0 mt-0.5"></i>
-                            <span>Custom branding</span>
-                        </li>
-                    </ul>
-                    
-                    <a href="/signup?plan=starter" class="block w-full py-4 px-6 bg-[#222222] text-[#F5F5F5] rounded-xl font-semibold text-center hover:bg-[#2A2A2A] transition-all border border-[#333333] hover:border-[#00FFBB]">
-                        Start 14-Day Trial
-                    </a>
-                </div>
-                
-                <!-- Pro Plan -->
-                <div class="pricing-card glass-effect rounded-3xl p-8 relative border-2 border-[#00FFBB] shadow-lg shadow-[#00FFBB]/15">
-                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#00FFBB] to-[#00DDAA] text-[#0F0F0F] px-6 py-2 rounded-full text-sm font-bold shadow-lg">
-                        🔥 MOST POPULAR
-                    </div>
-                    
-                    <div class="mb-8">
-                        <div class="flex items-baseline gap-2 mb-2">
-                            <span class="text-5xl font-black text-[#00FFBB] ">$24.99</span>
-                            <span class="text-[#AAAAAA]">/month</span>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-2">Pro</h3>
-                        <p class="text-[#AAAAAA] text-sm">For producers building an empire</p>
-                    </div>
-                    
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span><strong>Unlimited</strong> products</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span><strong>Keep 100%</strong> of all sales</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span>Instant payouts via Stripe</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span>Custom branded storefront</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span>Advanced analytics & insights</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span>Discount codes & promos</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span>Priority support (24h response)</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-[#F5F5F5]">
-                            <i data-lucide="check" class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"></i>
-                            <span>Early access to new features</span>
-                        </li>
-                    </ul>
-                    
-                    <a href="/signup?plan=pro" class="btn-primary block w-full py-4 px-6 bg-[#00FFBB] text-[#0F0F0F] rounded-xl font-bold text-center hover:bg-[#00DDAA] transition-all shadow-lg hover:scale-105">
-                        Start 14-Day Trial
-                    </a>
-                </div>
-            </div>
-            
-            <div class="text-center mt-16">
-                <div class="inline-flex items-center gap-2 bg-[#00FFBB]/10 border border-[#00FFBB]/30 rounded-2xl px-6 py-4 mb-4">
-                    <i data-lucide="zap" class="w-5 h-5 text-[#00FFBB]"></i>
-                    <p class="text-[#F5F5F5] font-semibold">
-                        Make just <span class="text-[#00FFBB]">one $25 sale</span> and you've covered the Pro plan for the month
-                    </p>
-                </div>
-                <p class="text-sm text-[#777777]">Cancel anytime. No questions. No BS.</p>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+          <span
+            class="inline-block px-4 py-2 bg-[#FF00DD]/10 border border-[#FF00DD]/30 rounded-full text-sm text-[#FF00DD] font-medium mb-6"
+          >
+            Transparent Pricing
+          </span>
+          <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
+            One Simple Fee. <br class="sm:hidden" /><span class="text-[#00FFBB]"
+              >Unlimited Profit.</span
+            >
+          </h2>
+          <p class="text-xl text-[#AAAAAA] max-w-2xl mx-auto">
+            No commission. No hidden fees. No surprises. Just a flat monthly
+            subscription.
+          </p>
         </div>
+
+        <div class="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <!-- Free Plan -->
+          <div class="pricing-card glass-effect rounded-3xl p-8 relative">
+            <div class="mb-8">
+              <div class="flex items-baseline gap-2 mb-2">
+                <span class="text-5xl font-black text-[#F5F5F5]">$0</span>
+                <span class="text-[#AAAAAA]">/month</span>
+              </div>
+              <h3 class="text-2xl font-bold mb-2">Free Forever</h3>
+              <p class="text-[#AAAAAA] text-sm">
+                Perfect for testing the waters
+              </p>
+            </div>
+
+            <ul class="space-y-4 mb-8">
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span><strong>3 products</strong> upload limit</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span><strong>Keep 100%</strong> of all sales</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span>Instant payouts via Stripe</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span>Basic storefront page</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span>Email support</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#AAAAAA]">
+                <i
+                  data-lucide="x"
+                  class="w-5 h-5 text-[#555555] flex-shrink-0 mt-0.5"
+                ></i>
+                <span>Custom branding</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#AAAAAA]">
+                <i
+                  data-lucide="x"
+                  class="w-5 h-5 text-[#555555] flex-shrink-0 mt-0.5"
+                ></i>
+                <span>Analytics dashboard</span>
+              </li>
+            </ul>
+
+            <a
+              href="/signup?plan=free"
+              class="block w-full py-4 px-6 bg-[#222222] text-[#F5F5F5] rounded-xl font-semibold text-center hover:bg-[#2A2A2A] transition-all border border-[#333333] hover:border-[#00FFBB]"
+            >
+              Start Free
+            </a>
+          </div>
+
+          <!-- Starter Plan -->
+          <div
+            class="pricing-card glass-effect rounded-3xl p-8 relative border-2 border-[#333333]"
+          >
+            <div class="mb-8">
+              <div class="flex items-baseline gap-2 mb-2">
+                <span class="text-5xl font-black text-[#F5F5F5]">$9.99</span>
+                <span class="text-[#AAAAAA]">/month</span>
+              </div>
+              <h3 class="text-2xl font-bold mb-2">Starter</h3>
+              <p class="text-[#AAAAAA] text-sm">
+                For serious producers getting started
+              </p>
+            </div>
+
+            <ul class="space-y-4 mb-8">
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span><strong>15 products</strong> per month</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span><strong>Keep 100%</strong> of all sales</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span>Instant payouts via Stripe</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span>Enhanced storefront page</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span>Basic analytics</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span>Priority email support</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#AAAAAA]">
+                <i
+                  data-lucide="x"
+                  class="w-5 h-5 text-[#555555] flex-shrink-0 mt-0.5"
+                ></i>
+                <span>Custom branding</span>
+              </li>
+            </ul>
+
+            <a
+              href="/signup?plan=starter"
+              class="block w-full py-4 px-6 bg-[#222222] text-[#F5F5F5] rounded-xl font-semibold text-center hover:bg-[#2A2A2A] transition-all border border-[#333333] hover:border-[#00FFBB]"
+            >
+              Start 14-Day Trial
+            </a>
+          </div>
+
+          <!-- Pro Plan -->
+          <div
+            class="pricing-card glass-effect rounded-3xl p-8 relative border-2 border-[#00FFBB] shadow-lg shadow-[#00FFBB]/15"
+          >
+            <div
+              class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#00FFBB] to-[#00DDAA] text-[#0F0F0F] px-6 py-2 rounded-full text-sm font-bold shadow-lg"
+            >
+              MOST POPULAR
+            </div>
+
+            <div class="mb-8">
+              <div class="flex items-baseline gap-2 mb-2">
+                <span class="text-5xl font-black text-[#00FFBB]">$24.99</span>
+                <span class="text-[#AAAAAA]">/month</span>
+              </div>
+              <h3 class="text-2xl font-bold mb-2">Pro</h3>
+              <p class="text-[#AAAAAA] text-sm">
+                For producers building an empire
+              </p>
+            </div>
+
+            <ul class="space-y-4 mb-8">
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span><strong>Unlimited</strong> products</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span><strong>Keep 100%</strong> of all sales</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span>Instant payouts via Stripe</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span>Custom branded storefront</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span>Advanced analytics & insights</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span>Discount codes & promos</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span>Priority support (24h response)</span>
+              </li>
+              <li class="flex items-start gap-3 text-[#F5F5F5]">
+                <i
+                  data-lucide="check"
+                  class="w-5 h-5 text-[#00FFBB] flex-shrink-0 mt-0.5"
+                ></i>
+                <span>Early access to new features</span>
+              </li>
+            </ul>
+
+            <a
+              href="/signup?plan=pro"
+              class="btn-primary block w-full py-4 px-6 bg-[#00FFBB] text-[#0F0F0F] rounded-xl font-bold text-center hover:bg-[#00DDAA] transition-all shadow-lg hover:scale-105"
+            >
+              Start 14-Day Trial
+            </a>
+          </div>
+        </div>
+
+        <div class="text-center mt-16">
+          <div
+            class="inline-flex items-center gap-2 bg-[#00FFBB]/10 border border-[#00FFBB]/30 rounded-2xl px-6 py-4 mb-4"
+          >
+            <i data-lucide="zap" class="w-5 h-5 text-[#00FFBB]"></i>
+            <p class="text-[#F5F5F5] font-semibold">
+              Make just <span class="text-[#00FFBB]">one $25 sale</span> and
+              you've covered the Pro plan for the month
+            </p>
+          </div>
+          <p class="text-sm text-[#777777]">
+            Cancel anytime. No questions. No BS.
+          </p>
+        </div>
+      </div>
     </section>
-    
+
     <!-- Features Showcase -->
     <section id="features" class="py-32 bg-[#0A0A0A]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-20">
-                <span class="inline-block px-4 py-2 bg-[#00D9FF]/10 border border-[#00D9FF]/30 rounded-full text-sm text-[#00D9FF] font-medium mb-6">
-                    Everything You Need
-                </span>
-                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
-                    Built Different. <span class="text-[#00FFBB] ">Actually Good.</span>
-                </h2>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="glass-effect rounded-2xl p-6 card-hover">
-                    <div class="w-12 h-12 bg-[#00FFBB]/20 rounded-xl flex items-center justify-center mb-4">
-                        <i data-lucide="zap" class="w-6 h-6 text-[#00FFBB]"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Instant Payouts</h3>
-                    <p class="text-[#AAAAAA] text-sm">Money in your account the second someone buys. No 30-day holds.</p>
-                </div>
-                
-                <div class="glass-effect rounded-2xl p-6 card-hover">
-                    <div class="w-12 h-12 bg-[#FF00DD]/20 rounded-xl flex items-center justify-center mb-4">
-                        <i data-lucide="shield-check" class="w-6 h-6 text-[#FF00DD]"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Secure Delivery</h3>
-                    <p class="text-[#AAAAAA] text-sm">Encrypted file delivery. Your beats stay protected.</p>
-                </div>
-                
-                <div class="glass-effect rounded-2xl p-6 card-hover">
-                    <div class="w-12 h-12 bg-[#00D9FF]/20 rounded-xl flex items-center justify-center mb-4">
-                        <i data-lucide="bar-chart-3" class="w-6 h-6 text-[#00D9FF]"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Real-Time Analytics</h3>
-                    <p class="text-[#AAAAAA] text-sm">Track sales, views, and revenue in real-time.</p>
-                </div>
-                
-                <div class="glass-effect rounded-2xl p-6 card-hover">
-                    <div class="w-12 h-12 bg-[#00FFBB]/20 rounded-xl flex items-center justify-center mb-4">
-                        <i data-lucide="palette" class="w-6 h-6 text-[#00FFBB]"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Custom Branding</h3>
-                    <p class="text-[#AAAAAA] text-sm">Your logo, your colors, your domain. Be yourself.</p>
-                </div>
-                
-                <div class="glass-effect rounded-2xl p-6 card-hover">
-                    <div class="w-12 h-12 bg-[#FF00DD]/20 rounded-xl flex items-center justify-center mb-4">
-                        <i data-lucide="percent" class="w-6 h-6 text-[#FF00DD]"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Discount Codes</h3>
-                    <p class="text-[#AAAAAA] text-sm">Run sales, reward fans, grow your audience.</p>
-                </div>
-                
-                <div class="glass-effect rounded-2xl p-6 card-hover">
-                    <div class="w-12 h-12 bg-[#00D9FF]/20 rounded-xl flex items-center justify-center mb-4">
-                        <i data-lucide="headphones" class="w-6 h-6 text-[#00D9FF]"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Audio Previews</h3>
-                    <p class="text-[#AAAAAA] text-sm">Let customers hear before they buy. Convert more.</p>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+          <span
+            class="inline-block px-4 py-2 bg-[#00D9FF]/10 border border-[#00D9FF]/30 rounded-full text-sm text-[#00D9FF] font-medium mb-6"
+          >
+            Everything You Need
+          </span>
+          <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
+            Built Different. <span class="text-[#00FFBB]">Actually Good.</span>
+          </h2>
         </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="glass-effect rounded-2xl p-6 card-hover">
+            <div
+              class="w-12 h-12 bg-[#00FFBB]/20 rounded-xl flex items-center justify-center mb-4"
+            >
+              <i data-lucide="zap" class="w-6 h-6 text-[#00FFBB]"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Instant Payouts</h3>
+            <p class="text-[#AAAAAA] text-sm">
+              Money in your account the second someone buys. No 30-day holds.
+            </p>
+          </div>
+
+          <div class="glass-effect rounded-2xl p-6 card-hover">
+            <div
+              class="w-12 h-12 bg-[#FF00DD]/20 rounded-xl flex items-center justify-center mb-4"
+            >
+              <i data-lucide="shield-check" class="w-6 h-6 text-[#FF00DD]"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Secure Delivery</h3>
+            <p class="text-[#AAAAAA] text-sm">
+              Encrypted file delivery. Your beats stay protected.
+            </p>
+          </div>
+
+          <div class="glass-effect rounded-2xl p-6 card-hover">
+            <div
+              class="w-12 h-12 bg-[#00D9FF]/20 rounded-xl flex items-center justify-center mb-4"
+            >
+              <i data-lucide="bar-chart-3" class="w-6 h-6 text-[#00D9FF]"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Real-Time Analytics</h3>
+            <p class="text-[#AAAAAA] text-sm">
+              Track sales, views, and revenue in real-time.
+            </p>
+          </div>
+
+          <div class="glass-effect rounded-2xl p-6 card-hover">
+            <div
+              class="w-12 h-12 bg-[#00FFBB]/20 rounded-xl flex items-center justify-center mb-4"
+            >
+              <i data-lucide="palette" class="w-6 h-6 text-[#00FFBB]"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Custom Branding</h3>
+            <p class="text-[#AAAAAA] text-sm">
+              Your logo, your colors, your domain. Be yourself.
+            </p>
+          </div>
+
+          <div class="glass-effect rounded-2xl p-6 card-hover">
+            <div
+              class="w-12 h-12 bg-[#FF00DD]/20 rounded-xl flex items-center justify-center mb-4"
+            >
+              <i data-lucide="percent" class="w-6 h-6 text-[#FF00DD]"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Discount Codes</h3>
+            <p class="text-[#AAAAAA] text-sm">
+              Run sales, reward fans, grow your audience.
+            </p>
+          </div>
+
+          <div class="glass-effect rounded-2xl p-6 card-hover">
+            <div
+              class="w-12 h-12 bg-[#00D9FF]/20 rounded-xl flex items-center justify-center mb-4"
+            >
+              <i data-lucide="headphones" class="w-6 h-6 text-[#00D9FF]"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Audio Previews</h3>
+            <p class="text-[#AAAAAA] text-sm">
+              Let customers hear before they buy. Convert more.
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
-    
+
     <!-- Final CTA -->
     <section class="py-32 relative overflow-hidden">
-        <div class="absolute inset-0 hero-gradient"></div>
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-[#00FFBB]/10 rounded-full blur-3xl animate-float"></div>
-            <div class="absolute bottom-1/4 left-1/4 w-96 h-96 bg-[#FF00DD]/10 rounded-full blur-3xl animate-float-delayed"></div>
+      <div class="absolute inset-0 hero-gradient"></div>
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          class="absolute top-1/4 right-1/4 w-96 h-96 bg-[#00FFBB]/10 rounded-full blur-3xl animate-float"
+        ></div>
+        <div
+          class="absolute bottom-1/4 left-1/4 w-96 h-96 bg-[#FF00DD]/10 rounded-full blur-3xl animate-float-delayed"
+        ></div>
+      </div>
+
+      <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2
+          class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 leading-tight"
+        >
+          Stop Giving Away <br class="hidden sm:block" />
+          <span class="text-[#00FFBB]">30% of Your Money</span>
+        </h2>
+        <p class="text-xl sm:text-2xl text-[#AAAAAA] mb-12 max-w-3xl mx-auto">
+          Join thousands of producers who said "fuck that" to commission fees
+          and started keeping what they earn.
+        </p>
+
+        <div
+          class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
+        >
+          <a
+            href="/signup"
+            class="btn-primary group inline-flex items-center justify-center gap-2 font-bold rounded-xl transition-all duration-300 text-lg px-10 py-5 bg-[#00FFBB] text-[#0F0F0F] shadow-lg shadow-[#00FFBB]/20 hover:shadow-[#00FFBB]/30 hover:scale-105"
+          >
+            <i
+              data-lucide="arrow-right"
+              class="w-5 h-5 group-hover:translate-x-1 transition-transform"
+            ></i>
+            Start Free - No Credit Card
+          </a>
+          <a
+            href="#pricing"
+            class="inline-flex items-center gap-2 text-[#AAAAAA] hover:text-[#00FFBB] transition-colors text-lg"
+          >
+            See Plans & Pricing
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </a>
         </div>
-        
-        <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 leading-tight">
-                Stop Giving Away <br class="hidden sm:block"/>
-                <span class="text-[#00FFBB] ">30% of Your Money</span>
-            </h2>
-            <p class="text-xl sm:text-2xl text-[#AAAAAA] mb-12 max-w-3xl mx-auto">
-                Join thousands of producers who said "fuck that" to commission fees and started keeping what they earn.
-            </p>
-            
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-                <a href="/signup" class="btn-primary group inline-flex items-center justify-center gap-2 font-bold rounded-xl transition-all duration-300 text-lg px-10 py-5 bg-[#00FFBB] text-[#0F0F0F] shadow-lg shadow-[#00FFBB]/20 hover:shadow-[#00FFBB]/30 hover:scale-105">
-                    <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-                    Start Free - No Credit Card
-                </a>
-                <a href="#pricing" class="inline-flex items-center gap-2 text-[#AAAAAA] hover:text-[#00FFBB] transition-colors text-lg">
-                    See Plans & Pricing
-                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                </a>
-            </div>
-            
-            <!-- Trust Badges -->
-            <div class="flex flex-wrap items-center justify-center gap-8 text-sm text-[#777777]">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="check-circle" class="w-5 h-5 text-[#00FFBB]"></i>
-                    <span>14-day free trial</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <i data-lucide="check-circle" class="w-5 h-5 text-[#00FFBB]"></i>
-                    <span>Cancel anytime</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <i data-lucide="check-circle" class="w-5 h-5 text-[#00FFBB]"></i>
-                    <span>No credit card required</span>
-                </div>
-            </div>
+
+        <!-- Trust Badges -->
+        <div
+          class="flex flex-wrap items-center justify-center gap-8 text-sm text-[#777777]"
+        >
+          <div class="flex items-center gap-2">
+            <i data-lucide="check-circle" class="w-5 h-5 text-[#00FFBB]"></i>
+            <span>14-day free trial</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <i data-lucide="check-circle" class="w-5 h-5 text-[#00FFBB]"></i>
+            <span>Cancel anytime</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <i data-lucide="check-circle" class="w-5 h-5 text-[#00FFBB]"></i>
+            <span>No credit card required</span>
+          </div>
         </div>
+      </div>
     </section>
-    
+
     <!-- Footer -->
     <footer class="bg-[#0A0A0A] border-t border-[#222222] py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <div class="flex items-center gap-2 mb-4">
-                        <div class="w-8 h-8 bg-gradient-to-br from-[#00FFBB] to-[#FF00DD] rounded-lg flex items-center justify-center">
-                            <span class="text-[#0F0F0F] font-bold text-sm">K</span>
-                        </div>
-                        <span class="text-xl font-bold">kit<span class="text-[#00FFBB]">zz</span></span>
-                    </div>
-                    <p class="text-[#777777] text-sm">The beat marketplace that actually respects producers.</p>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4">Product</h4>
-                    <ul class="space-y-2 text-sm text-[#777777]">
-                        <li><a href="#features" class="hover:text-[#00FFBB] transition-colors">Features</a></li>
-                        <li><a href="#pricing" class="hover:text-[#00FFBB] transition-colors">Pricing</a></li>
-                        <li><a href="#how-it-works" class="hover:text-[#00FFBB] transition-colors">How It Works</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4">Company</h4>
-                    <ul class="space-y-2 text-sm text-[#777777]">
-                        <li><a href="/about" class="hover:text-[#00FFBB] transition-colors">About</a></li>
-                        <li><a href="/blog" class="hover:text-[#00FFBB] transition-colors">Blog</a></li>
-                        <li><a href="/contact" class="hover:text-[#00FFBB] transition-colors">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4">Legal</h4>
-                    <ul class="space-y-2 text-sm text-[#777777]">
-                        <li><a href="/terms" class="hover:text-[#00FFBB] transition-colors">Terms</a></li>
-                        <li><a href="/privacy" class="hover:text-[#00FFBB] transition-colors">Privacy</a></li>
-                    </ul>
-                </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-8 mb-8">
+          <div>
+            <div class="flex items-center gap-2 mb-4">
+              <div
+                class="w-8 h-8 bg-gradient-to-br from-[#00FFBB] to-[#FF00DD] rounded-lg flex items-center justify-center"
+              >
+                <span class="text-[#0F0F0F] font-bold text-sm">K</span>
+              </div>
+              <span class="text-xl font-bold"
+                >kit<span class="text-[#00FFBB]">zz</span></span
+              >
             </div>
-            
-            <div class="pt-8 border-t border-[#222222] flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p class="text-sm text-[#777777]">© 2024 kitzz. All rights reserved.</p>
-                <div class="flex items-center gap-4">
-                    <a href="#" class="text-[#777777] hover:text-[#00FFBB] transition-colors">
-                        <i data-lucide="twitter" class="w-5 h-5"></i>
-                    </a>
-                    <a href="#" class="text-[#777777] hover:text-[#00FFBB] transition-colors">
-                        <i data-lucide="instagram" class="w-5 h-5"></i>
-                    </a>
-                    <a href="#" class="text-[#777777] hover:text-[#00FFBB] transition-colors">
-                        <i data-lucide="youtube" class="w-5 h-5"></i>
-                    </a>
-                </div>
-            </div>
+            <p class="text-[#777777] text-sm">
+              The beat marketplace that actually respects producers.
+            </p>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-4">Product</h4>
+            <ul class="space-y-2 text-sm text-[#777777]">
+              <li>
+                <a
+                  href="#features"
+                  class="hover:text-[#00FFBB] transition-colors"
+                  >Features</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#pricing"
+                  class="hover:text-[#00FFBB] transition-colors"
+                  >Pricing</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#how-it-works"
+                  class="hover:text-[#00FFBB] transition-colors"
+                  >How It Works</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-4">Company</h4>
+            <ul class="space-y-2 text-sm text-[#777777]">
+              <li>
+                <a href="/about" class="hover:text-[#00FFBB] transition-colors"
+                  >About</a
+                >
+              </li>
+              <li>
+                <a href="/blog" class="hover:text-[#00FFBB] transition-colors"
+                  >Blog</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/contact"
+                  class="hover:text-[#00FFBB] transition-colors"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-4">Legal</h4>
+            <ul class="space-y-2 text-sm text-[#777777]">
+              <li>
+                <a href="/terms" class="hover:text-[#00FFBB] transition-colors"
+                  >Terms</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/privacy"
+                  class="hover:text-[#00FFBB] transition-colors"
+                  >Privacy</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
+
+        <div
+          class="pt-8 border-t border-[#222222] flex flex-col sm:flex-row items-center justify-between gap-4"
+        >
+          <p class="text-sm text-[#777777]">
+            © 2024 kitzz. All rights reserved.
+          </p>
+          <div class="flex items-center gap-4">
+            <a
+              href="#"
+              class="text-[#777777] hover:text-[#00FFBB] transition-colors"
+            >
+              <i data-lucide="twitter" class="w-5 h-5"></i>
+            </a>
+            <a
+              href="#"
+              class="text-[#777777] hover:text-[#00FFBB] transition-colors"
+            >
+              <i data-lucide="instagram" class="w-5 h-5"></i>
+            </a>
+            <a
+              href="#"
+              class="text-[#777777] hover:text-[#00FFBB] transition-colors"
+            >
+              <i data-lucide="youtube" class="w-5 h-5"></i>
+            </a>
+          </div>
+        </div>
+      </div>
     </footer>
-    
+
     <script>
-        lucide.createIcons();
-        
-        // Mobile menu toggle
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('active');
-        }
-        
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href !== '#') {
-                    e.preventDefault();
-                    const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                        // Close mobile menu if open
-                        const menu = document.getElementById('mobileMenu');
-                        menu.classList.remove('active');
-                    }
-                }
-            });
+      lucide.createIcons();
+
+      // Mobile menu toggle
+      function toggleMobileMenu() {
+        const menu = document.getElementById("mobileMenu");
+        menu.classList.toggle("active");
+      }
+
+      // Smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          const href = this.getAttribute("href");
+          if (href !== "#") {
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) {
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+              // Close mobile menu if open
+              const menu = document.getElementById("mobileMenu");
+              menu.classList.remove("active");
+            }
+          }
         });
-        
-        // Intersection Observer for animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-        
-        // Observe all cards
-        document.querySelectorAll('.card-hover, .feature-card').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.6s ease-out';
-            observer.observe(el);
+      });
+
+      // Intersection Observer for animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+          }
         });
+      }, observerOptions);
+
+      // Observe all cards
+      document.querySelectorAll(".card-hover, .feature-card").forEach((el) => {
+        el.style.opacity = "0";
+        el.style.transform = "translateY(30px)";
+        el.style.transition = "all 0.6s ease-out";
+        observer.observe(el);
+      });
     </script>
-</body>
+  </body>
 </html>

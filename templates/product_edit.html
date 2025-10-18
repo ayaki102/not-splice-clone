@@ -12,54 +12,43 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-
     <style>
       * {
         font-family: "Inter", sans-serif;
       }
-
       .font-mono {
         font-family: "JetBrains Mono", monospace;
       }
-
       html {
         scroll-behavior: smooth;
       }
-
       ::-webkit-scrollbar {
         width: 8px;
         height: 8px;
       }
-
       ::-webkit-scrollbar-track {
         background: #0f0f0f;
       }
-
       ::-webkit-scrollbar-thumb {
         background: linear-gradient(180deg, #00ffbb, #ff00dd);
         border-radius: 10px;
       }
-
       .glass-effect {
         background: rgba(24, 24, 24, 0.4);
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.05);
       }
-
       .sidebar {
         transition: transform 0.3s ease;
       }
-
       @media (max-width: 768px) {
         .sidebar {
           transform: translateX(-100%);
         }
-
         .sidebar.active {
           transform: translateX(0);
         }
       }
-
       .badge {
         display: inline-flex;
         align-items: center;
@@ -69,32 +58,26 @@
         font-size: 0.75rem;
         font-weight: 600;
       }
-
       .badge-free {
         background: rgba(170, 170, 170, 0.1);
         color: #aaaaaa;
       }
-
       .badge-starter {
         background: rgba(0, 217, 255, 0.1);
         color: #00d9ff;
       }
-
       .badge-pro {
         background: rgba(0, 255, 187, 0.1);
         color: #00ffbb;
       }
-
       .badge-published {
         background: rgba(0, 255, 187, 0.1);
         color: #00ffbb;
       }
-
       .badge-draft {
         background: rgba(170, 170, 170, 0.1);
         color: #aaaaaa;
       }
-
       .form-input,
       .form-select,
       .form-textarea {
@@ -106,7 +89,6 @@
         width: 100%;
         transition: all 0.2s ease;
       }
-
       .form-input:focus,
       .form-select:focus,
       .form-textarea:focus {
@@ -114,12 +96,10 @@
         border-color: #00ffbb;
         background: #181818;
       }
-
       .form-input::placeholder,
       .form-textarea::placeholder {
         color: #777777;
       }
-
       .form-label {
         display: block;
         font-size: 0.875rem;
@@ -127,13 +107,11 @@
         color: #f5f5f5;
         margin-bottom: 8px;
       }
-
       .form-hint {
         font-size: 0.75rem;
         color: #777777;
         margin-top: 4px;
       }
-
       .upload-zone {
         border: 2px dashed #333333;
         border-radius: 12px;
@@ -142,18 +120,15 @@
         transition: all 0.3s ease;
         cursor: pointer;
       }
-
       .upload-zone:hover {
         border-color: #00ffbb;
         background: rgba(0, 255, 187, 0.05);
       }
-
       .upload-zone.drag-over {
         border-color: #00ffbb;
         background: rgba(0, 255, 187, 0.1);
         transform: scale(1.02);
       }
-
       .tag-input {
         display: inline-flex;
         align-items: center;
@@ -164,16 +139,13 @@
         border-radius: 6px;
         font-size: 0.875rem;
       }
-
       .tag-input button {
         color: #777777;
         transition: color 0.2s;
       }
-
       .tag-input button:hover {
         color: #ff4444;
       }
-
       .stat-mini {
         display: flex;
         align-items: center;
@@ -183,20 +155,17 @@
         border: 1px solid #222222;
         border-radius: 10px;
       }
-
       .toggle-switch {
         position: relative;
         display: inline-block;
         width: 48px;
         height: 24px;
       }
-
       .toggle-switch input {
         opacity: 0;
         width: 0;
         height: 0;
       }
-
       .toggle-slider {
         position: absolute;
         cursor: pointer;
@@ -208,7 +177,6 @@
         transition: 0.3s;
         border-radius: 24px;
       }
-
       .toggle-slider:before {
         position: absolute;
         content: "";
@@ -220,11 +188,9 @@
         transition: 0.3s;
         border-radius: 50%;
       }
-
       input:checked + .toggle-slider {
         background-color: #00ffbb;
       }
-
       input:checked + .toggle-slider:before {
         transform: translateX(24px);
         background-color: #0f0f0f;
@@ -250,7 +216,6 @@
           >
         </a>
       </div>
-
       <!-- Navigation -->
       <nav class="flex-1 p-4 overflow-y-auto">
         <div class="space-y-1">
@@ -297,7 +262,6 @@
             <span>Storefront</span>
           </a>
         </div>
-
         <div class="mt-8 pt-4 border-t border-[#222222]">
           <a
             href="/dashboard/settings"
@@ -315,7 +279,6 @@
           </a>
         </div>
       </nav>
-
       <!-- User Profile -->
       <div class="p-4 border-t border-[#222222]">
         <div class="flex items-center gap-3 px-2 py-2">
@@ -340,7 +303,6 @@
         </div>
       </div>
     </aside>
-
     <!-- Main Content -->
     <div class="md:ml-64">
       <!-- Top Bar -->
@@ -363,7 +325,6 @@
               <p class="text-xs text-[#AAAAAA]">{{ product.title }}</p>
             </div>
           </div>
-
           <div class="flex items-center gap-3">
             <a
               href="/products/{{ product.slug }}"
@@ -382,7 +343,6 @@
           </div>
         </div>
       </header>
-
       <!-- Product Edit Content -->
       <main class="p-4 sm:p-6 lg:p-8">
         <form
@@ -396,7 +356,6 @@
               <!-- Basic Info -->
               <div class="glass-effect rounded-2xl p-6 border border-[#222222]">
                 <h2 class="text-lg font-bold mb-6">Basic Information</h2>
-
                 <!-- Title -->
                 <div class="mb-6">
                   <label class="form-label" for="title">Product Title</label>
@@ -413,7 +372,6 @@
                     Choose a descriptive name for your product
                   </p>
                 </div>
-
                 <!-- Description -->
                 <div class="mb-6">
                   <label class="form-label" for="description"
@@ -425,53 +383,50 @@
                     class="form-textarea"
                     rows="4"
                     placeholder="Describe your product..."
-                  >
-{{ product.description }}</textarea
-                  >
+                  >{{ product.description }}</textarea>
                   <p class="form-hint">
                     Help buyers understand what makes this product special
                   </p>
                 </div>
-
                 <!-- Type & Price -->
-            <div class="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label class="form-label" for="type">Product Type</label>
-                <select id="type" name="type" class="form-select">
-                  <option value="loop" {% if product.type == "loop" %}selected{% endif %}>
-                    Loop
-                  </option>
-                  <option value="sample" {% if product.type == "sample" %}selected{% endif %}>
-                    Sample
-                  </option>
-                  <option value="kit" {% if product.type == "kit" %}selected{% endif %}>
-                    Kit
-                  </option>
-                </select>
+                <div class="grid sm:grid-cols-2 gap-4">
+                  <!-- Product Type -->
+                  <div>
+                    <label class="form-label" for="type">Product Type</label>
+                    <select id="type" name="type" class="form-select">
+                      <option value="loop" {% if product.type == "loop" %}selected{% endif %}>
+                        Loop
+                      </option>
+                      <option value="sample" {% if product.type == "sample" %}selected{% endif %}>
+                        Sample
+                      </option>
+                      <option value="kit" {% if product.type == "kit" %}selected{% endif %}>
+                        Kit
+                      </option>
+                    </select>
+                  </div>
+                  <!-- Price -->
+                  <div>
+                    <label class="form-label" for="price">Price (USD)</label>
+                    <input
+                      type="number"
+                      id="price"
+                      name="price"
+                      class="form-input"
+                      value="{{ product.price }}"
+                      step="0.01"
+                      min="0"
+                      placeholder="9.99"
+                      required
+                    />
+                  </div>
+                </div>
               </div>
-
-              <div>
-                <label class="form-label" for="price">Price (USD)</label>
-                <input
-                  type="number"
-                  id="price"
-                  name="price"
-                  class="form-input"
-                  value="{{ product.price }}"
-                  step="0.01"
-                  min="0"
-                  placeholder="9.99"
-                  required
-                />
-              </div>
-            </div>
-
-
               <!-- Audio Details -->
               <div class="glass-effect rounded-2xl p-6 border border-[#222222]">
                 <h2 class="text-lg font-bold mb-6">Audio Details</h2>
-
                 <div class="grid sm:grid-cols-3 gap-4">
+                  <!-- BPM -->
                   <div>
                     <label class="form-label" for="bpm">BPM</label>
                     <input
@@ -483,6 +438,7 @@
                       placeholder="140"
                     />
                   </div>
+                  <!-- Key -->
                   <div>
                     <label class="form-label" for="key">Key</label>
                     <input
@@ -494,53 +450,26 @@
                       placeholder="Cm"
                     />
                   </div>
+                  <!-- Format -->
                   <div>
                     <label class="form-label" for="format">Format</label>
                     <select id="format" name="format" class="form-select">
-                      <option
-                        value="WAV"
-                        {%
-                        if
-                        product.format=="WAV"
-                        %}selected{%
-                        endif
-                        %}
-                      >
+                      <option value="WAV" {% if product.format == "WAV" %}selected{% endif %}>
                         WAV
                       </option>
-                      <option
-                        value="MP3"
-                        {%
-                        if
-                        product.format=="MP3"
-                        
-                        %}selected{%
-                        endif
-                        %}
-                      >
+                      <option value="MP3" {% if product.format == "MP3" %}selected{% endif %}>
                         MP3
                       </option>
-                      <option
-                        value="FLAC"
-                        {%
-                        if
-                        product.format=="FLAC"
-                        
-                        %}selected{%
-                        endif
-                        %}
-                      >
+                      <option value="FLAC" {% if product.format == "FLAC" %}selected{% endif %}>
                         FLAC
                       </option>
                     </select>
                   </div>
                 </div>
               </div>
-
               <!-- Cover Image -->
               <div class="glass-effect rounded-2xl p-6 border border-[#222222]">
                 <h2 class="text-lg font-bold mb-6">Cover Image</h2>
-
                 <div
                   class="upload-zone"
                   onclick="document.getElementById('imageInput').click()"
@@ -580,11 +509,9 @@
                   </p>
                 </div>
               </div>
-
               <!-- Tags -->
               <div class="glass-effect rounded-2xl p-6 border border-[#222222]">
                 <h2 class="text-lg font-bold mb-6">Tags</h2>
-
                 <div id="tagsContainer" class="flex flex-wrap gap-2 mb-4">
                   {% for tag in product.tags %}
                   <div class="tag-input">
@@ -599,7 +526,6 @@
                   </div>
                   {% endfor %}
                 </div>
-
                 <div class="flex gap-2">
                   <input
                     type="text"
@@ -621,13 +547,11 @@
                 </p>
               </div>
             </div>
-
             <!-- Sidebar -->
             <div class="space-y-6">
               <!-- Status & Actions -->
               <div class="glass-effect rounded-2xl p-6 border border-[#222222]">
                 <h2 class="text-lg font-bold mb-6">Status</h2>
-
                 <div class="mb-6">
                   <div class="flex items-center justify-between mb-4">
                     <div>
@@ -640,17 +564,11 @@
                       <input
                         type="checkbox"
                         name="published"
-                        {%
-                        if
-                        product.status=="published"
-                        %}checked{%
-                        endif
-                        %}
+                        {% if product.status == "published" %}checked{% endif %}
                       />
                       <span class="toggle-slider"></span>
                     </label>
                   </div>
-
                   <div
                     class="badge badge-{{ product.status }} w-full justify-center"
                   >
@@ -658,18 +576,15 @@
                       data-lucide="{% if product.status == 'published' %}check-circle{% else %}clock{% endif %}"
                       class="w-4 h-4"
                     ></i>
-                    {% if product.status == 'published' %}Published{% else
-                    %}Draft{% endif %}
+                    {% if product.status == 'published' %}Published{% else %}Draft{% endif %}
                   </div>
                 </div>
-
                 <button
                   type="submit"
                   class="w-full px-4 py-3 bg-[#00FFBB] text-[#0F0F0F] rounded-lg font-semibold hover:bg-[#00DDAA] transition-all mb-3"
                 >
                   Save Changes
                 </button>
-
                 <button
                   type="button"
                   onclick="window.location.href='/dashboard/products'"
@@ -678,11 +593,9 @@
                   Cancel
                 </button>
               </div>
-
               <!-- Performance Stats -->
               <div class="glass-effect rounded-2xl p-6 border border-[#222222]">
                 <h2 class="text-lg font-bold mb-6">Performance</h2>
-
                 <div class="space-y-3">
                   <div class="stat-mini">
                     <i data-lucide="eye" class="w-5 h-5 text-[#AAAAAA]"></i>
@@ -691,7 +604,6 @@
                       <div class="font-semibold">{{ product.views }}</div>
                     </div>
                   </div>
-
                   <div class="stat-mini">
                     <i
                       data-lucide="download"
@@ -702,7 +614,6 @@
                       <div class="font-semibold">{{ product.downloads }}</div>
                     </div>
                   </div>
-
                   <div class="stat-mini">
                     <i
                       data-lucide="dollar-sign"
@@ -715,7 +626,6 @@
                       </div>
                     </div>
                   </div>
-
                   <div class="stat-mini">
                     <i
                       data-lucide="trending-up"
@@ -724,13 +634,11 @@
                     <div class="flex-1">
                       <div class="text-xs text-[#AAAAAA]">Conversion</div>
                       <div class="font-semibold">
-                        {{ "%.1f"|format((product.downloads / product.views *
-                        100) if product.views > 0 else 0) }}%
+                        {{ "%.1f"|format((product.downloads / product.views * 100) if product.views > 0 else 0) }}%
                       </div>
                     </div>
                   </div>
                 </div>
-
                 <a
                   href="/dashboard/products/{{ product.id }}/analytics"
                   class="block mt-4 text-center text-sm text-[#00FFBB] hover:text-[#00DDAA] transition-colors"
@@ -738,11 +646,9 @@
                   View Detailed Analytics →
                 </a>
               </div>
-
               <!-- Product Info -->
               <div class="glass-effect rounded-2xl p-6 border border-[#222222]">
                 <h2 class="text-lg font-bold mb-6">Product Info</h2>
-
                 <div class="space-y-3 text-sm">
                   <div class="flex justify-between">
                     <span class="text-[#AAAAAA]">Product ID</span>
@@ -767,26 +673,21 @@
         </form>
       </main>
     </div>
-
     <script>
       lucide.createIcons();
-
       function toggleSidebar() {
         const sidebar = document.getElementById("sidebar");
         sidebar.classList.toggle("active");
       }
-
       document.addEventListener("click", function (event) {
         const sidebar = document.getElementById("sidebar");
         const isClickInside =
           sidebar.contains(event.target) ||
           event.target.closest('[onclick="toggleSidebar()"]');
-
         if (!isClickInside && window.innerWidth < 768) {
           sidebar.classList.remove("active");
         }
       });
-
       function previewImage(event) {
         const file = event.target.files[0];
         if (file) {
@@ -794,7 +695,6 @@
           reader.onload = function (e) {
             const icon = document.getElementById("imageIcon");
             const preview = document.getElementById("imagePreview");
-
             if (preview) {
               preview.src = e.target.result;
             } else {
@@ -804,11 +704,9 @@
           reader.readAsDataURL(file);
         }
       }
-
       function addTag() {
         const input = document.getElementById("tagInput");
         const tag = input.value.trim();
-
         if (tag) {
           const container = document.getElementById("tagsContainer");
           const tagElement = document.createElement("div");
@@ -824,18 +722,15 @@
           lucide.createIcons();
         }
       }
-
       function handleTagInput(event) {
         if (event.key === "Enter") {
           event.preventDefault();
           addTag();
         }
       }
-
       function removeTag(button) {
         button.closest(".tag-input").remove();
       }
-
       function deleteProduct() {
         if (
           confirm(
@@ -845,7 +740,6 @@
           window.location.href = "/dashboard/products/{{ product.id }}/delete";
         }
       }
-
       // Reinitialize icons
       setInterval(() => lucide.createIcons(), 1000);
     </script>
